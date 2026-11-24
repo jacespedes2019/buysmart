@@ -1,0 +1,2 @@
+import type { CollectionSchema } from 'deepspace/schema'
+export const comparisonsSchema:CollectionSchema={name:'comparisons',columns:[{name:'snapshot',storage:'text',interpretation:{kind:'json'},required:true}],permissions:{'*':{read:false,create:false,update:false,delete:false},viewer:{read:'own',create:true,update:'own',delete:'own'},member:{read:'own',create:true,update:'own',delete:'own'},admin:{read:'own',create:true,update:'own',delete:'own'}}}
