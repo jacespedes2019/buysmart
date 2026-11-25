@@ -1,0 +1,12 @@
+{
+  "scope": "marketplace-only probe",
+  "beforeCredits": 415.3234280000002,
+  "afterCredits": 397.7234280000002,
+  "netUsd": 0.176,
+  "netCredits": 17.6,
+  "approvedMaximumUsd": 0.5,
+  "paidStarts": 1,
+  "newExaCalls": 0,
+  "newOpenAICalls": 0,
+  "limitation": "Exa can reserve USD 0.65, exceeding the authorized ceiling. No new Exa/OpenAI calls made."
+}

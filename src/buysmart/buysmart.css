@@ -942,3 +942,40 @@
   .bs nav { gap: 0; }
   .bs nav button { padding: 12px 7px; gap: 5px; font-size: 12px; }
 }
+
+/* Workspace polish: a quieter canvas and a clearer search/results hierarchy. */
+.bs { background: #f4f5f0; --ink: #182e2b; --green: #12614e; }
+.bs-header { background: #fcfcf9; }
+.bs-main { padding-top: 48px; }
+.bs h1 { font-size: clamp(32px, 4vw, 50px); letter-spacing: -1.8px; max-width: 720px; }
+.page-heading { margin-bottom: 30px; }
+.search-panel { border-radius: 18px; padding: 28px; box-shadow: 0 12px 36px #223d2c07; border-color: #d8ded4; }
+.search-intro { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; color: var(--muted); font-size: 12px; }
+.step-label { font-size: 10px; font-weight: 750; letter-spacing: 1.5px; color: var(--green); }
+.bs textarea { min-height: 100px; padding: 18px; font-size: 17px; background: #f8faf6; border-radius: 10px; }
+.bs .primary { border-radius: 9px; box-shadow: 0 3px 0 #0a40351a; }
+#search-interpretation { font-size: 12px; margin-top: 16px; max-width: 850px; }
+.how-grid { gap: 24px; margin-top: 36px; }
+.how-grid > div { border-top: 1px solid #d4ddd1; padding-top: 22px; }
+.product-card { border-radius: 14px; box-shadow: 0 5px 18px #20352c06; overflow: hidden; }
+.product-visual { background: #edf1e9; }
+.product-body h3 { line-height: 1.5; }
+.score-row { border-radius: 8px; background: #f2f5ee; padding: 12px; }
+.evidence-scope { margin: 26px 0 12px; padding: 24px; border: 1px solid #ccd9c6; border-left: 4px solid var(--green); border-radius: 12px; background: #f9fbf5; display: grid; grid-template-columns: 1.5fr 1fr; gap: 28px; }
+.scope-intro { display: flex; align-items: flex-start; gap: 12px; }
+.scope-intro > svg { flex-shrink: 0; margin-top: 3px; color: var(--green); }
+.scope-intro h2 { font-size: 19px; line-height: 1.4; margin: 7px 0; letter-spacing: -.4px; }
+.scope-intro p { font-size: 13px; }
+.scope-facts { display: flex; flex-direction: column; justify-content: center; gap: 11px; padding-left: 24px; border-left: 1px solid #d6dfcf; font-size: 12px; color: #42564a; }
+.scope-facts span { display: flex; align-items: center; gap: 7px; }
+.research-notes { padding: 12px 16px; border: 1px solid #dce2d6; border-radius: 8px; margin-bottom: 24px; background: #fcfcf9; }
+.research-notes summary { font-size: 12px; color: #4f6155; }
+.research-notes p { font-size: 12px; margin-top: 12px; }
+.criterion-unavailable { display: block; color: #647166; font-size: 10px; font-weight: 400; margin-top: 4px; }
+@media (max-width: 700px) {
+  .bs-main { padding-top: 28px; }
+  .search-panel { padding: 18px; border-radius: 12px; }
+  .evidence-scope { grid-template-columns: 1fr; gap: 18px; padding: 18px; }
+  .scope-facts { border-left: 0; border-top: 1px solid #d6dfcf; padding: 16px 0 0; }
+  .how-grid { gap: 14px; }
+}

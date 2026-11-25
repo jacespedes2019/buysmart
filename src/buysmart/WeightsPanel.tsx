@@ -3,6 +3,7 @@ import { defaults, keys, labels, type Weights } from "./model";
 import { normalizeWeights } from "./ranking";
 import type { Dispatch, SetStateAction } from "react";
 export function WeightsPanel({
+  live = false,
   weights,
   setWeights,
   busy,
@@ -10,6 +11,7 @@ export function WeightsPanel({
   persistenceReady,
   save,
 }: {
+  live?: boolean;
   weights: Weights;
   setWeights: Dispatch<SetStateAction<Weights>>;
   busy: boolean;
@@ -30,7 +32,7 @@ export function WeightsPanel({
       <p>Move a slider to rethink the tradeoffs. No new API calls.</p>
       {keys.map((k) => (
         <label key={k}>
-          {labels[k]}
+          {labels[k]}{live && !["price", "rating"].includes(k) && <small className="criterion-unavailable">Not scored in live research</small>}
           <strong>{normalized[k].toFixed(1)}%</strong>
           <input
             aria-label={labels[k] + " weight"}

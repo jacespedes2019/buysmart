@@ -41,3 +41,11 @@ The paid run's initial normalized result omitted model specs because the first i
 ## Delivery boundary
 
 No deployment or portal submission was performed. Live access in the checkout is restricted to the owner allowlist and requires a deliberate search; demo remains the UI default. The generic paid proxy is blocked. Production verification and the applicant's personal verification are still outstanding.
+
+## November 24 — interface and delivery preparation
+
+Refined desktop/mobile spacing, typography, search hierarchy and product cards. A prominent ranking-scope panel explains the live score, unavailable criteria and suitability limits. Research warnings are expandable; live cards omit unsupported strengths/weaknesses. The priorities panel marks its three unscored live criteria. Full suite: 50 unit tests / 8 files and 19 browser tests with zero skips; includes live-snapshot scope disclosure and unchanged native two-user isolation tests. Screenshots regenerated under docs/screenshots/ and visually reviewed.
+
+An authorized marketplace-only probe used the actual cleaned query `tablet apple ipad`, up to twelve candidates, one paid start and nine free polls. Four priced configurations survived selection: A16 256GB (USD 479.99), A16 128GB (USD 379), renewed 8th-generation 32GB (USD 119), and a renewed 2020 32GB listing (USD 118). These are observed listings, not a promise of four model families; uncertain identity differences are preserved. Probe evidence: docs/live-verification/variety-1795568924999/. Cost: USD 0.176 (17.6 credits), within the explicit USD 0.50 approval. No new Exa/OpenAI invocation was made: Exa can reserve USD 0.65, exceeding that authorization. Earlier live integration checks and replay evidence remain applicable, but are not a new full live search.
+
+Submission draft: SUBMISSION.md. Candidate verification remains explicitly incomplete until the applicant performs it.

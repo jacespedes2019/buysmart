@@ -1,3 +1,4 @@
+import { EvidenceScope } from "./EvidenceScope";
 import { ProductCard } from "./ProductCard";
 import { ComparisonTable } from "./ComparisonTable";
 import { WeightsPanel } from "./WeightsPanel";
@@ -334,6 +335,7 @@ export default function BuySmart({
                   <SearchIcon size={17} />
                   What are you looking for?
                 </div>
+                <div className="search-intro"><span className="step-label">01 / DISCOVER</span><span>One brief. A clearer shortlist.</span></div>
                 <label className="sr-only" htmlFor="query">
                   Product requirements
                 </label>
@@ -481,11 +483,11 @@ export default function BuySmart({
             )}
             {result && (
               <>
-                {result.warnings.map((w) => (
-                  <p key={w} className="subtle">
-                    {w}
-                  </p>
-                ))}
+                <EvidenceScope live={snapshotMode === "live"} />
+                {!!result.warnings.length && <details className="research-notes">
+                  <summary>Research notes & limitations · {result.warnings.length}</summary>
+                  {result.warnings.map(w => <p key={w}>{w}</p>)}
+                </details>}
                 {page === "discover" ? (
                   <>
                     <div className="section-heading">
@@ -520,6 +522,7 @@ export default function BuySmart({
                         <ProductCard
                           key={r.product.id}
                           r={r}
+                          live={snapshotMode === "live"}
                           isTopMatch={r.product.id === ranked[0]?.product.id && r.score > 0 && (ranked.length === 1 || r.score > ranked[1].score + 1e-9)}
                           category={resultCategory}
                           selected={selected}
@@ -553,6 +556,7 @@ export default function BuySmart({
                 ) : (
                   <div className="workspace">
                     <WeightsPanel
+                      live={snapshotMode === "live"}
                       weights={weights}
                       setWeights={setWeights}
                       busy={busy || loading}
@@ -566,7 +570,7 @@ export default function BuySmart({
                           <div className="recommendation">
                             <div className="section-label">
                               <Sparkles size={17} />
-                              {hasWinner ? "YOUR CURRENT TOP MATCH" : "MORE EVIDENCE NEEDED"}
+                              {hasWinner ? snapshotMode === "live" ? "LEADER ON AVAILABLE DATA" : "YOUR CURRENT TOP MATCH" : "MORE EVIDENCE NEEDED"}
                             </div>
                             <h2>{hasWinner ? comparison[0].product.name : comparison[0].score > 0 ? "Your top products are tied" : "No supported winner yet"}</h2>
                             {hasWinner ? <p>

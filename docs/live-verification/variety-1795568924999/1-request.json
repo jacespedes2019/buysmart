@@ -1,0 +1,23 @@
+{
+  "actorId": "junglee/amazon-crawler",
+  "input": {
+    "categoryOrProductUrls": [
+      {
+        "url": "https://www.amazon.com/s?k=tablet%20apple%20ipad"
+      }
+    ],
+    "maxItemsPerStartUrl": 12,
+    "maxSearchPagesPerStartUrl": 1,
+    "maxProductVariantsAsSeparateResults": 0,
+    "maxOffers": 0,
+    "scrapeSellers": false,
+    "scrapeProductVariantPrices": false,
+    "scrapeProductDetails": true,
+    "useCaptchaSolver": false,
+    "proxyCountry": "US",
+    "language": "en"
+  },
+  "maxItems": 12,
+  "maxTotalChargeUsd": 0.075,
+  "timeout": 60
+}

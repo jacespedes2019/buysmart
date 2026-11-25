@@ -40,7 +40,7 @@ export function ComparisonTable({
         </thead>
         <tbody>
           <tr>
-            <th>Overall fit score</th>
+            <th>Weighted score</th>
             {comparison.map((r) => (
               <td key={r.product.id}>
                 <strong className="big-score">{r.score.toFixed(1)}</strong>

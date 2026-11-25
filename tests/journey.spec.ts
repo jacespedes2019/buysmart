@@ -122,6 +122,7 @@ test("recorded live offers show prices and variants, survive mode changes, and r
   await page.getByRole("button", { name: "Research products" }).click();
   await expect(page.locator(".product-card")).toHaveCount(1);
   await expect(page.locator(".price-row strong").first()).toHaveText("$379");
+  await expect(page.getByRole("region", { name: "Ranking scope" })).toContainText("does not establish suitability for design work");
   await expect(page.locator(".offer-details").filter({ hasText: "Color: Blue" })).toHaveCount(1);
   await expect(page.locator(".offer-details").first()).toContainText("Shipping: unknown");
   await expect(page.locator(".offer-details").first()).toContainText("Taxes excluded");
@@ -129,6 +130,7 @@ test("recorded live offers show prices and variants, survive mode changes, and r
   await expect(page.locator(".product-card")).toHaveCount(1);
   await page.getByRole("button", { name: "Compare shortlist" }).click();
   await expect(page.locator(".recommendation h2")).toContainText("Apple iPad");
+  await expect(page.locator(".criterion-unavailable")).toHaveCount(3);
   await page.getByRole("button", { name: "Save comparison", exact: true }).click();
   await expect(page.getByRole("status")).toContainText("saved in this browser");
   await page.screenshot({ path: "docs/screenshots/live-comparison-replay.png", fullPage: true });

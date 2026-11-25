@@ -1,0 +1,171 @@
+{
+  "products": [
+    {
+      "id": "B0DZ76LW4J",
+      "name": "Apple iPad 11-inch: A16 chip, 11-inch Model, Liquid Retina Display, 256GB, Wi-Fi 6, 12MP Front/12MP Back Camera, Touch ID, All-Day Battery Life — Blue",
+      "price": 479.99,
+      "rating": 4.7,
+      "url": "https://www.amazon.com/dp/B0DZ76LW4J",
+      "image": "https://m.media-amazon.com/images/I/61aPY8odPSL._AC_SX342_SY445_QL70_FMwebp_.jpg",
+      "offer": {
+        "provider": "apify",
+        "currency": "USD",
+        "market": "US",
+        "observedAt": "2026-11-25T01:08:44.999Z",
+        "inStock": true,
+        "seller": "Amazon.com",
+        "shipping": null,
+        "variant": "Style: Wi-Fi · Size: 256GB · Color: Blue · Configuration: Without AppleCare+"
+      },
+      "specs": [
+        {
+          "label": "Memory Storage Capacity",
+          "value": "256 GB",
+          "sourceUrl": "https://www.amazon.com/dp/B0DZ76LW4J"
+        },
+        {
+          "label": "Screen Size",
+          "value": "11 inches",
+          "sourceUrl": "https://www.amazon.com/dp/B0DZ76LW4J"
+        },
+        {
+          "label": "Display Resolution Maximum",
+          "value": "2360-by-1640-pixel resolution at 264 (ppi) pixels",
+          "sourceUrl": "https://www.amazon.com/dp/B0DZ76LW4J"
+        }
+      ],
+      "strengths": [],
+      "weaknesses": [],
+      "evidence": {
+        "performance": null,
+        "compatibility": null,
+        "features": null
+      },
+      "sources": [
+        {
+          "title": "Amazon product data via Apify",
+          "url": "https://www.amazon.com/dp/B0DZ76LW4J",
+          "excerpt": "Observed 2026-11-25T01:08:44.999Z. USD 479.99. Style: Wi-Fi · Size: 256GB · Color: Blue · Configuration: Without AppleCare+. Taxes excluded; verify shipping and checkout total."
+        }
+      ]
+    },
+    {
+      "id": "B0DZ75TN5F",
+      "name": "Apple iPad 11-inch: A16 chip, 11-inch Model, Liquid Retina Display, 128GB, Wi-Fi 6, 12MP Front/12MP Back Camera, Touch ID, All-Day Battery Life — Blue",
+      "price": 379,
+      "rating": 4.7,
+      "url": "https://www.amazon.com/dp/B0DZ75TN5F",
+      "image": "https://m.media-amazon.com/images/I/61aPY8odPSL._AC_SX342_SY445_QL70_FMwebp_.jpg",
+      "offer": {
+        "provider": "apify",
+        "currency": "USD",
+        "market": "US",
+        "observedAt": "2026-11-25T01:08:44.999Z",
+        "inStock": true,
+        "seller": "Amazon.com",
+        "shipping": null,
+        "variant": "Style: Wi-Fi · Size: 128GB · Color: Blue · Configuration: Without AppleCare+"
+      },
+      "specs": [
+        {
+          "label": "Memory Storage Capacity",
+          "value": "128 GB",
+          "sourceUrl": "https://www.amazon.com/dp/B0DZ75TN5F"
+        },
+        {
+          "label": "Screen Size",
+          "value": "11 inches",
+          "sourceUrl": "https://www.amazon.com/dp/B0DZ75TN5F"
+        },
+        {
+          "label": "Display Resolution Maximum",
+          "value": "2360-by-1640-pixel resolution at 264 (ppi) pixels",
+          "sourceUrl": "https://www.amazon.com/dp/B0DZ75TN5F"
+        }
+      ],
+      "strengths": [],
+      "weaknesses": [],
+      "evidence": {
+        "performance": null,
+        "compatibility": null,
+        "features": null
+      },
+      "sources": [
+        {
+          "title": "Amazon product data via Apify",
+          "url": "https://www.amazon.com/dp/B0DZ75TN5F",
+          "excerpt": "Observed 2026-11-25T01:08:44.999Z. USD 379. Style: Wi-Fi · Size: 128GB · Color: Blue · Configuration: Without AppleCare+. Taxes excluded; verify shipping and checkout total."
+        }
+      ]
+    },
+    {
+      "id": "B08KZ8GXK8",
+      "name": "Apple iPad (10.2-inch, Wi-Fi, 32GB) - Silver (Latest Model, 8th Generation) (Renewed)",
+      "price": 119,
+      "rating": 4.3,
+      "url": "https://www.amazon.com/dp/B08KZ8GXK8",
+      "image": "https://m.media-amazon.com/images/I/71GsWDM8sPL._AC_SY300_SX300_QL70_FMwebp_.jpg",
+      "offer": {
+        "provider": "apify",
+        "currency": "USD",
+        "market": "US",
+        "observedAt": "2026-11-25T01:08:44.999Z",
+        "inStock": true,
+        "seller": "Sole Providers",
+        "shipping": null,
+        "variant": "Color: Silver · Memory Storage Capacity: 32 GB · Set name: Wi-Fi"
+      },
+      "specs": [],
+      "strengths": [],
+      "weaknesses": [],
+      "evidence": {
+        "performance": null,
+        "compatibility": null,
+        "features": null
+      },
+      "sources": [
+        {
+          "title": "Amazon product data via Apify",
+          "url": "https://www.amazon.com/dp/B08KZ8GXK8",
+          "excerpt": "Observed 2026-11-25T01:08:44.999Z. USD 119. Color: Silver · Memory Storage Capacity: 32 GB · Set name: Wi-Fi. Taxes excluded; verify shipping and checkout total."
+        }
+      ]
+    },
+    {
+      "id": "B08KWJW3DV",
+      "name": "Apple iPad 2020 (10.2-inch, Wi-Fi, 32GB) - Space Gray (Renewed)",
+      "price": 118,
+      "rating": 4.3,
+      "url": "https://www.amazon.com/dp/B08KWJW3DV",
+      "image": "https://m.media-amazon.com/images/I/71KlwCsb7nL._AC_SY300_SX300_QL70_FMwebp_.jpg",
+      "offer": {
+        "provider": "apify",
+        "currency": "USD",
+        "market": "US",
+        "observedAt": "2026-11-25T01:08:44.999Z",
+        "inStock": true,
+        "seller": "Park Deals",
+        "shipping": null,
+        "variant": "Color: Space Gray · Memory Storage Capacity: 32 GB · Set name: Wi-Fi"
+      },
+      "specs": [],
+      "strengths": [],
+      "weaknesses": [],
+      "evidence": {
+        "performance": null,
+        "compatibility": null,
+        "features": null
+      },
+      "sources": [
+        {
+          "title": "Amazon product data via Apify",
+          "url": "https://www.amazon.com/dp/B08KWJW3DV",
+          "excerpt": "Observed 2026-11-25T01:08:44.999Z. USD 118. Color: Space Gray · Memory Storage Capacity: 32 GB · Set name: Wi-Fi. Taxes excluded; verify shipping and checkout total."
+        }
+      ]
+    }
+  ],
+  "starts": 1,
+  "calls": 10,
+  "note": "Marketplace only; no new Exa/OpenAI calls."
+}

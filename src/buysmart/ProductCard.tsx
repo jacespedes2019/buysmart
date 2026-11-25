@@ -6,12 +6,14 @@ import type { scoreProduct } from "./ranking";
 import type { Dispatch, SetStateAction } from "react";
 export function ProductCard({
   r,
+  live = false,
   isTopMatch,
   category,
   selected,
   setSelected,
 }: {
   r: ReturnType<typeof scoreProduct>;
+  live?: boolean;
   isTopMatch: boolean;
   category: string;
   selected: string[];
@@ -35,7 +37,7 @@ export function ProductCard({
             <span>{category.slice(0, -1)}</span>
           </>
         )}
-        {isTopMatch && <span className="top-pick">TOP MATCH</span>}
+        {isTopMatch && <span className="top-pick">{live ? "LISTING LEADER" : "TOP MATCH"}</span>}
       </div>
       <div className="product-body">
         <div className="product-meta">
@@ -59,17 +61,18 @@ export function ProductCard({
           ))}
         </div>
         <OfferDetails product={r.product} />
-        <p className="pro">
+        {!live && <><p className="pro">
           <Check size={14} />
           {r.product.strengths[0] ?? "Strengths unavailable"}
         </p>
         <p className="con">
           {r.product.weaknesses[0] ?? "Limitations unavailable"}
         </p>
+        </>}
         <div className="score-row">
           <div>
             <strong>{r.score.toFixed(1)}</strong>
-            <span>/ 100 fit score</span>
+            <span>/ 100 weighted score</span>
           </div>
           <span>{r.coverage.toFixed(0)}% coverage</span>
         </div>

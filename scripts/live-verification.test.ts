@@ -45,3 +45,27 @@ test.skipIf(process.env.BUYSMART_APPROVED_LIVE_TEST !== "true")("approved bounde
   expect(result.warnings.join(" ")).not.toContain("malformed");
   console.info(JSON.stringify({ directory, paidCalls, totalCalls: calls, pricedProducts: result.products.filter(p => p.price !== null).length, warnings: result.warnings }));
 }, 180000);
+
+// Marketplace-only probe: no Exa reservation (which can exceed a small approved budget).
+test.skipIf(process.env.BUYSMART_APPROVED_LIVE_TEST !== "true")("approved marketplace variety probe", async () => {
+  const { discoverMarketplace } = await import("../src/buysmart/apify");
+  const directory = `docs/live-verification/variety-${Date.now()}`;
+  mkdirSync(directory, { recursive: true });
+  let starts = 0; let calls = 0;
+  const products = await discoverMarketplace(async (endpoint, body) => {
+    if (!["apify/run-actor", "apify/get-run"].includes(endpoint)) throw new Error("Unapproved endpoint");
+    if (endpoint === "apify/run-actor" && ++starts > 1) throw new Error("No paid retries");
+    const file = `${directory}/${++calls}-request.json`;
+    writeFileSync(file, JSON.stringify(body, null, 2));
+    const output = execFileSync("npx", ["--no-install", "deepspace", "integrations", "invoke", endpoint, "--body-file", file,
+      ...(endpoint === "apify/run-actor" ? ["--yes"] : []), "--timeout", "30000", "--json"], { encoding: "utf8", timeout: 35000 });
+    writeFileSync(`${directory}/${calls}-response.json`, output);
+    const envelope = JSON.parse(output);
+    if (!envelope.success) throw new Error("Marketplace probe failed; no retry made");
+    return envelope.data;
+  }, { query: "A tablet under $2000 for a graphic design student apple", budget: 2000, category: "Tablets" });
+  writeFileSync(`${directory}/result.json`, JSON.stringify({ products, starts, calls, note: "Marketplace only; no new Exa/OpenAI calls." }, null, 2));
+  expect(products.length).toBeGreaterThan(0);
+  expect(products.some(p => p.price !== null)).toBe(true);
+  console.info(JSON.stringify({ directory, products: products.map(p => ({ id: p.id, name: p.name, price: p.price })) }));
+}, 180000);
