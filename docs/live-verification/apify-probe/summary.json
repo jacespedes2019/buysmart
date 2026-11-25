@@ -1,0 +1,66 @@
+{
+  "provider": "apify",
+  "actor": "junglee/amazon-crawler",
+  "query": "Apple iPad A16 128GB",
+  "market": "amazon.com",
+  "requestedItems": 3,
+  "providerCostCapUsd": 0.02,
+  "status": "SUCCEEDED",
+  "reportedProviderCostUsd": 0.012,
+  "products": [
+    {
+      "name": "Apple iPad 11-inch: A16 chip, 11-inch Model, Liquid Retina Display, 128GB, Wi-Fi 6, 12MP Front/12MP Back Camera, Touch ID, All-Day Battery Life \u2014 Pink",
+      "url": "https://www.amazon.com/dp/B0DZ7871B8?language=en",
+      "asin": "B0DZ7871B8",
+      "price": {
+        "value": 379,
+        "currency": "$"
+      },
+      "inStock": true,
+      "rating": 4.7
+    },
+    {
+      "name": "Apple iPad 11-inch: A16 chip, 11-inch Model, Liquid Retina Display, 128GB, Wi-Fi 6, 12MP Front/12MP Back Camera, Touch ID, All-Day Battery Life \u2014 Blue",
+      "url": "https://www.amazon.com/dp/B0DZ75TN5F?language=en",
+      "asin": "B0DZ75TN5F",
+      "price": {
+        "value": 379,
+        "currency": "$"
+      },
+      "inStock": true,
+      "rating": 4.7
+    },
+    {
+      "name": "Apple iPad 11-inch: A16 chip, 11-inch Model, Liquid Retina Display, 128GB, Wi-Fi 6, 12MP Front/12MP Back Camera, Touch ID, All-Day Battery Life \u2014 Silver",
+      "url": "https://www.amazon.com/dp/B0DZ77D5HL?language=en",
+      "asin": "B0DZ77D5HL",
+      "price": {
+        "value": 379,
+        "currency": "$"
+      },
+      "inStock": true,
+      "rating": 4.7
+    }
+  ],
+  "limitations": [
+    "Provider result snapshot, not a checkout-price guarantee.",
+    "Shipping, tax, delivery address, seller and exact variant must be retained/checked.",
+    "Successful provider probe; not yet integrated into BuySmart."
+  ],
+  "accountCreditBalanceAfter": 494.0358759999999,
+  "accountCreditsUsedSinceBeforeAmazonProbe": 4.8,
+  "accountUsageByIntegration": [
+    {
+      "name": "apify",
+      "totalCost": 0.048,
+      "count": 6
+    },
+    {
+      "name": "amazon",
+      "totalCost": 0,
+      "count": 2
+    }
+  ],
+  "confirmedDeepSpaceCostUsd": 0.048,
+  "billingExplanation": "DeepSpace reserved USD 0.08 and settled/refunded USD 0.032. Provider-reported USD 0.012 became USD 0.048 at the account free-tier rate. The USD 0.02 cap limits the provider charge, not the final DeepSpace amount."
+}

@@ -1,0 +1,35 @@
+{
+  "endpoint": "exa/search",
+  "body": {
+    "query": "Tablets Apple iPad A16 128GB for a student Apple iPad 11-inch: A16 chip, 11-inch Model, Liquid Retina Display, 128GB, Wi-Fi 6, 12MP Front/12MP Back Camera, Touch ID, All-Day Battery Life — Pink Apple iPad 11-inch: A16 chip, 11-inch Model, Liquid Retina Display, 128GB, Wi-Fi 6, 12MP Front/12MP Back Camera, Touch ID, All-Day Battery Life — Blue Apple iPad 11-inch: A16 chip, 11-inch Model, Liquid Retina Display, 128GB, Wi-Fi 6, 12MP Front/12MP Back Camera, Touch ID, All-Day Battery Life — Silver manufacturer product specifications",
+    "numResults": 4,
+    "includeDomains": [
+      "apple.com",
+      "samsung.com",
+      "lenovo.com",
+      "microsoft.com",
+      "asus.com",
+      "acer.com",
+      "sony.com",
+      "bose.com",
+      "anker.com",
+      "soundcore.com",
+      "sennheiser-hearing.com",
+      "hp.com",
+      "dell.com",
+      "store.google.com",
+      "adobe.com",
+      "canva.com",
+      "capcut.com",
+      "rtings.com",
+      "notebookcheck.net",
+      "tomsguide.com",
+      "pcmag.com"
+    ],
+    "contents": {
+      "text": {
+        "maxCharacters": 1800
+      }
+    }
+  }
+}

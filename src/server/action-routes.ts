@@ -33,6 +33,8 @@ import {
   lookupOwn,
   normalizeApiError,
   splitIntegrationEndpoint,
+  readBoundedBodyText,
+  BodyTooLargeError,
 } from 'deepspace/worker'
 import type { ActionResult, ActionTools, VerifyResult } from 'deepspace/worker'
 import { actions } from '../actions/index.js'
@@ -62,18 +64,23 @@ export function registerActionRoutes(app: Hono<AppContext>, resolveAuth: Resolve
     // returns the handler argument, env secrets included, as the response.
     const action = lookupOwn(actions, name)
     if (!action) return c.json({ error: 'Action not found' }, 404)
-    if (Number(c.req.header('Content-Length') ?? 0) > 4096) return c.json({ error: 'Request too large' }, 413)
-    const rawBody = await c.req.text()
-    if (rawBody.length > 4096) return c.json({ error: 'Request too large' }, 413)
+    const maxBytes = name === 'saveComparison' ? 65_536 : 4096
+    let rawBody: string
+    try { rawBody = await readBoundedBodyText(c.req.raw, maxBytes) }
+    catch (error) {
+      if (error instanceof BodyTooLargeError) return c.json({ error: 'Request too large' }, 413)
+      throw error
+    }
     let params: Record<string, unknown>
     try { params = JSON.parse(rawBody) as Record<string, unknown> } catch { return c.json({ error: 'Invalid JSON' }, 400) }
-    const tools = createActionTools(c.env, auth.userId, callerJwt)
+    const signal = AbortSignal.any([c.req.raw.signal, AbortSignal.timeout(120_000)])
+    const tools = createActionTools(c.env, auth.userId, callerJwt, signal)
     const result = await action({ userId: auth.userId, params, tools, env: c.env, callerJwt })
     return c.json(result as unknown as Record<string, unknown>)
   })
 }
 
-function createActionTools(env: Env, userId: string, callerJwt: string): ActionTools {
+function createActionTools(env: Env, userId: string, callerJwt: string, signal: AbortSignal): ActionTools {
   const stub = env.RECORD_ROOMS.get(env.RECORD_ROOMS.idFromName(`app:${env.DEEPSPACE_APP_ID}`))
 
   // The DO returns ActionResult<unknown>; callers below supply the precise
@@ -97,6 +104,7 @@ function createActionTools(env: Env, userId: string, callerJwt: string): ActionT
   }
 
   async function callIntegration<T>(endpoint: string, data?: unknown): Promise<ActionResult<T>> {
+    signal.throwIfAborted()
     // "name/endpoint", both plain identifiers: anything else could reach
     // another api-worker route carrying the owner's token.
     const target = splitIntegrationEndpoint(endpoint)
@@ -131,6 +139,7 @@ function createActionTools(env: Env, userId: string, callerJwt: string): ActionT
       method: 'POST',
       headers,
       body: JSON.stringify(data ?? {}),
+      signal: AbortSignal.any([signal, AbortSignal.timeout(endpoint === "apify/get-run" ? 10_000 : endpoint === "exa/search" ? 15_000 : 25_000)]),
     })
     const payload = (await res.json()) as Record<string, unknown>
     if (!res.ok || payload.success === false) {

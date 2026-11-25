@@ -1,0 +1,23 @@
+{
+  "actorId": "junglee/amazon-crawler",
+  "input": {
+    "categoryOrProductUrls": [
+      {
+        "url": "https://www.amazon.com/s?k=Apple+iPad+A16+128GB"
+      }
+    ],
+    "maxItemsPerStartUrl": 3,
+    "maxSearchPagesPerStartUrl": 1,
+    "maxProductVariantsAsSeparateResults": 0,
+    "maxOffers": 0,
+    "scrapeSellers": false,
+    "scrapeProductVariantPrices": false,
+    "scrapeProductDetails": true,
+    "useCaptchaSolver": false,
+    "proxyCountry": "US",
+    "language": "en"
+  },
+  "maxItems": 3,
+  "maxTotalChargeUsd": 0.02,
+  "timeout": 90
+}

@@ -1,0 +1,20 @@
+{
+  "verifiedAtClientDate": "2026-11-23",
+  "runDirectory": "approved-1795491410782",
+  "newPaidCalls": {
+    "exa/search": 1,
+    "openai/chat-completion": 1
+  },
+  "reusedAmazonRun": "p6zBS5Hv03cQ82Grl",
+  "apifyNewPaidStarts": 0,
+  "pricedProducts": 3,
+  "providerEnvelopeAndExtractionJson": "valid",
+  "deepSpaceBalanceAfter": 492.937012,
+  "additionalCostUsd": 0.01098864,
+  "remediationCostUsdIncludingApifyProbe": 0.05898864,
+  "remainingLimitations": [
+    "The original normalized result retained no model specs under the initial strict identity gate. Current code accepts the A16 quotes in offline replay after distinguishing model codes from camera/capacity/Wi-Fi numbers.",
+    "Live AI numeric assessments are deliberately not accepted.",
+    "This verifies the provider chain using the existing paid Amazon job, not a public deployment."
+  ]
+}

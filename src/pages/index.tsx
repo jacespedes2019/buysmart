@@ -1,2 +1,11 @@
-import BuySmart from '../buysmart/BuySmart'
-export default function Index(){return <><title>BuySmart — Find what fits. Know why.</title><meta name="description" content="Compare electronics with transparent scoring, adjustable priorities, and saved decision snapshots. Explore the free illustrative demo."/><BuySmart/></>}
+import BuySmart from "../buysmart/BuySmart";
+import { Seo } from "../components/Seo";
+import { seo } from "../seo";
+export default function Index() {
+  return (
+    <div data-testid="static-landing">
+      <Seo {...seo} path="/" />
+      <BuySmart />
+    </div>
+  );
+}

@@ -12,7 +12,7 @@
   },
   "scripts": {
     "dev": "deepspace dev start",
-    "build": "vite build",
+    "build": "npm run type-check && vite build",
     "login": "deepspace auth login",
     "deploy": "deepspace deploy",
     "undeploy": "deepspace app undeploy",
@@ -21,11 +21,13 @@
     "test:smoke": "deepspace test run smoke",
     "test:api": "deepspace test run api",
     "test:e2e": "deepspace test run e2e",
-    "test:unit": "vitest run --passWithNoTests",
+    "test:unit": "vitest run",
+    "test:all": "deepspace test run all",
+    "check": "npm run type-check && npm run lint && npm run test:all && npm run build",
     "test:watch": "vitest",
-    "validate": "tsc --noEmit && vitest run --passWithNoTests",
+    "validate": "npm run type-check && npm run lint && npm run test:unit",
     "screenshot": "deepspace test screenshot",
-    "type-check": "tsc --noEmit",
+    "type-check": "tsc --noEmit && tsc --noEmit -p tsconfig.tooling.json",
     "lint": "eslint ."
   },
   "dependencies": {
@@ -63,5 +65,6 @@
     "vite-plugin-checker": "^0.14.1",
     "wrangler": "^4.79.0"
   },
+  "overrides": { "esbuild": "^0.28.2" },
   "private": true
 }

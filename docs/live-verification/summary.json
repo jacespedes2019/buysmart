@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-23",
+  "authorizedCalls": {
+    "amazon": 1,
+    "exa": 1,
+    "openai": 2
+  },
+  "results": {
+    "amazon": "failed, refunded; detailed error envelope not captured",
+    "exa": "success",
+    "openaiIntent": "success; valid JSON",
+    "openaiExtraction": "transport success; output truncated, rejected as JSON"
+  },
+  "netCostUsd": 0.011641239999999997,
+  "remainingCredits": 498.8358759999999,
+  "usageByIntegration": [
+    {
+      "name": "exa",
+      "totalCost": 0.009099999999999997,
+      "count": 1
+    },
+    {
+      "name": "openai",
+      "totalCost": 0.0025412399999999997,
+      "count": 2
+    },
+    {
+      "name": "amazon",
+      "totalCost": 0,
+      "count": 1
+    }
+  ]
+}

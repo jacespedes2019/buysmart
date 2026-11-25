@@ -1,0 +1,6 @@
+{
+  "endpoint": "apify/get-run",
+  "body": {
+    "runId": "p6zBS5Hv03cQ82Grl"
+  }
+}

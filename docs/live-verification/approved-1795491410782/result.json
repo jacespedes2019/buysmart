@@ -1,0 +1,107 @@
+{
+  "products": [
+    {
+      "id": "B0DZ7871B8",
+      "name": "Apple iPad 11-inch: A16 chip, 11-inch Model, Liquid Retina Display, 128GB, Wi-Fi 6, 12MP Front/12MP Back Camera, Touch ID, All-Day Battery Life — Pink",
+      "price": 379,
+      "rating": 4.7,
+      "url": "https://www.amazon.com/dp/B0DZ7871B8",
+      "image": "https://m.media-amazon.com/images/I/61F0JkimwfL._AC_SX342_SY445_QL70_FMwebp_.jpg",
+      "offer": {
+        "provider": "apify",
+        "currency": "USD",
+        "market": "US",
+        "observedAt": "2026-11-24T03:15:42Z",
+        "inStock": true,
+        "seller": "Amazon.com",
+        "shipping": null,
+        "variant": "Style: Wi-Fi · Size: 128GB · Color: Pink · Configuration: Without AppleCare+"
+      },
+      "specs": [],
+      "strengths": [],
+      "weaknesses": [],
+      "evidence": {
+        "performance": null,
+        "compatibility": null,
+        "features": null
+      },
+      "sources": [
+        {
+          "title": "Amazon product data via Apify",
+          "url": "https://www.amazon.com/dp/B0DZ7871B8",
+          "excerpt": "Observed 2026-11-24T03:15:42Z. USD 379. Style: Wi-Fi · Size: 128GB · Color: Pink · Configuration: Without AppleCare+. Taxes excluded; verify shipping and checkout total."
+        }
+      ]
+    },
+    {
+      "id": "B0DZ75TN5F",
+      "name": "Apple iPad 11-inch: A16 chip, 11-inch Model, Liquid Retina Display, 128GB, Wi-Fi 6, 12MP Front/12MP Back Camera, Touch ID, All-Day Battery Life — Blue",
+      "price": 379,
+      "rating": 4.7,
+      "url": "https://www.amazon.com/dp/B0DZ75TN5F",
+      "image": "https://m.media-amazon.com/images/I/61aPY8odPSL._AC_SX342_SY445_QL70_FMwebp_.jpg",
+      "offer": {
+        "provider": "apify",
+        "currency": "USD",
+        "market": "US",
+        "observedAt": "2026-11-24T03:15:42Z",
+        "inStock": true,
+        "seller": "Amazon.com",
+        "shipping": null,
+        "variant": "Style: Wi-Fi · Size: 128GB · Color: Blue · Configuration: Without AppleCare+"
+      },
+      "specs": [],
+      "strengths": [],
+      "weaknesses": [],
+      "evidence": {
+        "performance": null,
+        "compatibility": null,
+        "features": null
+      },
+      "sources": [
+        {
+          "title": "Amazon product data via Apify",
+          "url": "https://www.amazon.com/dp/B0DZ75TN5F",
+          "excerpt": "Observed 2026-11-24T03:15:42Z. USD 379. Style: Wi-Fi · Size: 128GB · Color: Blue · Configuration: Without AppleCare+. Taxes excluded; verify shipping and checkout total."
+        }
+      ]
+    },
+    {
+      "id": "B0DZ77D5HL",
+      "name": "Apple iPad 11-inch: A16 chip, 11-inch Model, Liquid Retina Display, 128GB, Wi-Fi 6, 12MP Front/12MP Back Camera, Touch ID, All-Day Battery Life — Silver",
+      "price": 379,
+      "rating": 4.7,
+      "url": "https://www.amazon.com/dp/B0DZ77D5HL",
+      "image": "https://m.media-amazon.com/images/I/61Q-vahOT9L._AC_SX342_SY445_QL70_FMwebp_.jpg",
+      "offer": {
+        "provider": "apify",
+        "currency": "USD",
+        "market": "US",
+        "observedAt": "2026-11-24T03:15:42Z",
+        "inStock": true,
+        "seller": "Amazon.com",
+        "shipping": null,
+        "variant": "Style: Wi-Fi · Size: 128GB · Color: Silver · Configuration: Without AppleCare+"
+      },
+      "specs": [],
+      "strengths": [],
+      "weaknesses": [],
+      "evidence": {
+        "performance": null,
+        "compatibility": null,
+        "features": null
+      },
+      "sources": [
+        {
+          "title": "Amazon product data via Apify",
+          "url": "https://www.amazon.com/dp/B0DZ77D5HL",
+          "excerpt": "Observed 2026-11-24T03:15:42Z. USD 379. Style: Wi-Fi · Size: 128GB · Color: Silver · Configuration: Without AppleCare+. Taxes excluded; verify shipping and checkout total."
+        }
+      ]
+    }
+  ],
+  "explanation": "Compare the original source excerpts and exact variants. AI-extracted specifications are aids for source review, not verified compatibility conclusions. Missing criteria are not scored or redistributed.",
+  "warnings": [
+    "Live performance, fit, and feature scores are unavailable: AI extracts quotations, not ranking values. Available listing prices and ratings alone contribute to the score."
+  ]
+}

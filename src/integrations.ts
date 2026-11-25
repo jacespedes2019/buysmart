@@ -24,7 +24,7 @@ export const integrations: Record<
   string,
   { billing: 'developer' | 'user'; anonymous?: boolean }
 > = {
-  amazon: { billing: 'developer' },
+  apify: { billing: 'developer' },
   exa: { billing: 'developer' },
   openai: { billing: 'developer' },
   google: { billing: 'user' },
