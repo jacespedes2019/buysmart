@@ -6,7 +6,7 @@ import { money } from "../buysmart/format";
 import { PriceHistory } from "./PriceHistory";
 import { watchConfigSchema, reportSchema } from "./model";
 export interface WatchDraft { asin: string; title: string; target: number; }
-interface Status { enabled: boolean; remaining: number; todayRemaining: number; owner: boolean; eligible: boolean; }
+interface Status { enabled: boolean; remaining: number; todayRemaining: number; }
 export function PriceWatches({ draft }: { draft?: WatchDraft }) {
   const { records, status: queryStatus, error: queryError } = useQuery<{ config: unknown; report?: unknown }>("priceWatches");
   const loading = queryStatus === "loading";
@@ -15,7 +15,6 @@ export function PriceWatches({ draft }: { draft?: WatchDraft }) {
   const [title, setTitle] = useState(draft?.title ?? "");
   const [target, setTarget] = useState(draft?.target ?? 300);
   const [status, setStatus] = useState<Status | null>(null);
-  const [confirmed, setConfirmed] = useState(false);
   const [busy, setBusy] = useState(false); const [error, setError] = useState(""); const [notice, setNotice] = useState("");
   useEffect(() => {
     const controller = new AbortController();
@@ -30,16 +29,22 @@ export function PriceWatches({ draft }: { draft?: WatchDraft }) {
     <div className="evidence-scope"><div><span className="step-label">BUY WHEN IT FITS YOUR BUDGET</span><h2><TrendingDown size={22} /> Your price watchlist</h2>
       <p>Follow an exact Amazon US ASIN. Get an in-app alert when an observed in-stock listing reaches your target. Prices exclude shipping and tax.</p></div>
       <div className="scope-facts"><span>At most one new check per ASIN per 24 hours</span><span>History starts with the first successful check</span><span>Up to 90 observations · daily checks can miss short offers</span></div></div>
-    <p className="monitor-status">{status ? `${status.enabled ? "Scheduled monitoring enabled" : "Scheduled monitoring paused"}. ${status.remaining} checks remain in the 20-check allowance (spending requires owner authorization); ${status.todayRemaining} checks available today.` : "Monitoring status unavailable. No paid check runs when saving a watch."}
-      {status && !status.eligible && " This account is not approved for paid checks; its watches remain queued."}</p>
-    {status?.owner && <details className="research-notes"><summary>Owner: scheduled spending controls</summary>
-      <p>Monitoring starts paused. Enabling authorizes up to 20 paid product checks total, no more than five per UTC day. Each extraction has a USD 0.005 provider cap; DeepSpace billing is additional. Watches of the same ASIN share a check. Counters do not reset when toggling monitoring.</p>
-      {!status.enabled && <label><input type="checkbox" checked={confirmed} onChange={e => setConfirmed(e.target.checked)} /> I authorize these scheduled paid checks.</label>}
-      <button className="secondary" disabled={busy || !status.enabled && !confirmed || !status.enabled && status.remaining === 0} onClick={() => void mutate(async () => {
-        await callAction("setPriceMonitoring", { enabled: !status.enabled, confirm: true });
-        setStatus(await callAction<Status>("priceMonitorStatus", {})); setConfirmed(false);
-      }, "Monitoring setting updated.")}>{status.enabled ? "Pause scheduled checks" : "Enable scheduled checks"}</button>
-    </details>}
+    <div className="research-notes">
+      <label><input type="checkbox" aria-label="Automatically check my followed products" checked={status?.enabled ?? false} disabled={busy || !status} onChange={e => {
+        const enabled = e.target.checked;
+        const previous = status;
+        setStatus(current => current ? { ...current, enabled } : current);
+        void mutate(async () => {
+          try { await callAction("setPriceMonitoring", { enabled, confirm: true }); }
+          catch (error) { setStatus(previous); throw error; }
+          const fresh = await callAction<Status>("priceMonitorStatus", {}).catch(() => null);
+          if (fresh) setStatus(fresh);
+        }, enabled ? "Your automatic price checks are enabled." : "Your automatic price checks are disabled.");
+      }} /> Automatically check my followed products</label>
+      <p>This setting affects only your account. Checks use the app’s integration credits, not a personal charge. Each product is checked at most once per 24 hours; matching ASINs share a check.</p>
+      <p className="monitor-status">{status ? `${status.enabled ? "Your scheduled checks are enabled" : "Your scheduled checks are paused"}. Shared allowance: ${status.remaining} checks remaining, ${status.todayRemaining} available today. Pausing does not refill this allowance.` : "Monitoring status unavailable. Reload to retry; saving a watch does not run a paid check."}</p>
+      <p>All signed-in accounts can opt in. The shared app budget permits at most five new checks per UTC day and twenty total, with a USD 0.005 provider cap per check plus DeepSpace billing. When exhausted, checks wait for budget replenishment.</p>
+    </div>
     <form className="watch-form" onSubmit={e => { e.preventDefault(); void mutate(() => callAction("watchPrice", { asin: asin.trim().toUpperCase(), title, target }), "Price watch saved. No paid call was made."); }}>
       <h2><Bell size={18} /> Follow a product</h2>
       <div className="watch-form-fields"><label>Amazon ASIN<input value={asin} onChange={e => setAsin(e.target.value)} required pattern="[A-Za-z0-9]{10}" maxLength={10} placeholder="B0DZ75TN5F" /></label>

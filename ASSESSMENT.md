@@ -30,4 +30,4 @@ Deployment was authorized on November 24; the observed result is recorded in doc
 
 The brief contains conflicting integration-count guidance; the implemented product uses three useful DeepSpace integrations without adding a fourth to inflate feature count.
 
-Price tracking adds a focused follow-up flow: private exact-ASIN watches, target editing, observed price charts and in-app alerts. Native scheduled tasks and a transactional monitor share bounded daily checks. Recurring paid monitoring starts disabled and requires owner consent. A real direct-ASIN probe succeeded for USD 0.02; see docs/PRICE_TRACKING.md for operational limits.
+Price tracking adds a focused follow-up flow: private exact-ASIN watches, target editing, observed price charts and in-app alerts. Native scheduled tasks and a transactional monitor share bounded daily checks. Recurring paid monitoring starts disabled per account; all signed-in users can opt in independently under a shared transactional allowance. A real direct-ASIN probe succeeded for USD 0.02; see docs/PRICE_TRACKING.md for operational limits.

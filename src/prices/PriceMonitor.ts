@@ -4,14 +4,15 @@ interface State { history: Observation[]; lastAttempt?: number; pendingUntil?: n
 export class PriceMonitor {
   constructor(private state: DurableObjectState) {}
   async fetch(request: Request) {
-    const input = z.object({ op: z.enum(["status", "enable", "reserve", "attach", "finish", "fail"]), enabled: z.boolean().optional(), asin: asinSchema.optional(), token: z.string().optional(), runId: z.string().min(1).optional(), observation: observationSchema.optional(), error: z.string().max(300).optional() }).parse(await request.json());
+    const input = z.object({ op: z.enum(["status", "enable", "reserve", "attach", "finish", "fail"]), enabled: z.boolean().optional(), userId: z.string().min(1).max(150), asin: asinSchema.optional(), token: z.string().optional(), runId: z.string().min(1).optional(), observation: observationSchema.optional(), error: z.string().max(300).optional() }).parse(await request.json());
     const now = Date.now();
     return this.state.storage.transaction(async tx => {
-      const enabled = await tx.get<boolean>("enabled") ?? false;
+      const preferenceKey = "user-enabled:" + input.userId;
+      const enabled = await tx.get<boolean>(preferenceKey) ?? false;
       const total = await tx.get<number>("total") ?? 0;
       const dailyKey = "daily:" + new Date(now).toISOString().slice(0, 10);
       const daily = await tx.get<number>(dailyKey) ?? 0;
-      if (input.op === "enable") { await tx.put("enabled", input.enabled === true); return Response.json({ ok: true }); }
+      if (input.op === "enable") { await tx.put(preferenceKey, input.enabled === true); return Response.json({ ok: true }); }
       if (input.op === "status") return Response.json({ enabled, remaining: Math.max(0, 20 - total), todayRemaining: Math.max(0, 5 - daily) });
       if (!input.asin) return Response.json({ error: "ASIN required" }, { status: 400 });
       const key = "asin:" + input.asin;

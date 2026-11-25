@@ -284,7 +284,7 @@ export default function BuySmart({
           <span />{" "}
           {live ? "LIVE RESEARCH WORKSPACE" : "THE THOUGHTFUL WAY TO SHOP"}
         </div>
-        {page === "watchlist" ? <><div className="page-heading"><h1 tabIndex={-1}>A better price, on your terms.</h1></div>{watchPanel ?? <><PriceAlertPreview /><div className="empty"><Bell size={28} /><h2>Follow a price. Keep your shortlist.</h2><p>Sign in to set a target for an exact Amazon ASIN and keep private price observations. Automated checks require owner authorization and integration credits.</p><a href="/home">Sign in for price alerts ↗</a></div></>}</> : page === "history" ? (
+        {page === "watchlist" ? <><div className="page-heading"><h1 tabIndex={-1}>A better price, on your terms.</h1></div>{watchPanel ?? <><PriceAlertPreview /><div className="empty"><Bell size={28} /><h2>Follow a price. Keep your shortlist.</h2><p>Sign in to set a target for an exact Amazon ASIN and keep private price observations. Enable automatic checks for your own account; checks use shared app integration credits.</p><a href="/home">Sign in for price alerts ↗</a></div></>}</> : page === "history" ? (
           <>
             <div className="page-heading">
               <div>

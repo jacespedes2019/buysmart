@@ -4,7 +4,7 @@
 
 - Type checking covers client/Worker source plus tooling, scripts and browser tests through separate configs.
 - ESLint checks hooks and focused correctness rules.
-- Unit suite: **58 passed in 9 files**, including search-intent synchronization, server-side contradiction rejection, twelve-candidate selection, same-brand model preservation, query cleanup, and unlimited search admission.
+- Unit suite: **60 passed in 9 files**, including search-intent synchronization, server-side contradiction rejection, twelve-candidate selection, same-brand model preservation, query cleanup, and unlimited search admission.
 - Browser suite: **21 passed, zero skips**, including native two-account CRUD and direct foreign-ID denial.
 - Production build compiles Worker/client and prerenders the public demo. It runs both type checks first.
 - `npm audit --json`: **zero vulnerabilities** after resolving esbuild to 0.28.2.
@@ -71,3 +71,7 @@ The initial price-tracking release was `rel_01M885K06RM06CA707XMQF9Q1W`. A produ
 The corrected release is `rel_01M8863AHAZMCAG70B9Z77Y2CG`, clean source commit `f1bddb8`. DeepSpace confirmed serving and data plane. Production private watch CRUD/isolation and the delayed-hydration regression both passed. Paid monitoring remains disabled; no scheduled paid check was activated. Production checks create/delete their own private test rows and use no paid integrations.
 
 After the corrected release, five additional production flows passed: private comparison save/reopen/isolation, desktop demo, mobile demo, text/filter synchronization, and the synthetic no-credit alert preview. Together with private watch CRUD/isolation and the explicit delayed-hydration check, seven production checks passed. No additional paid requests were made.
+
+## Personal price-check consent
+
+Changed scheduled price checks from an owner-only global switch and research allowlist to verified-caller personal preferences. All authenticated accounts can opt in independently; opting out does not affect other subscribers. The old global enabled flag is ignored, so deployment does not silently enroll anyone. Shared per-ASIN caching and five/day, twenty-total spending counters remain unchanged. Unit coverage includes non-owner consent, parameter-spoofing rejection, independent settings and shared checks for accounts outside the research allowlist. Ordinary tests toggle settings only while their watchlists are empty and leave settings off; they do not invoke paid integrations.

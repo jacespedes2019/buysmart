@@ -224,6 +224,13 @@ test("private price watches survive reload, support targets and pause, and rejec
   await Promise.all([a.page.goto("/home"), b.page.goto("/home")]);
   await a.page.getByRole("button", { name: "Price alerts", exact: true }).click();
   await b.page.getByRole("button", { name: "Price alerts", exact: true }).click();
+  const checksA = a.page.getByRole("checkbox", { name: "Automatically check my followed products" });
+  const checksB = b.page.getByRole("checkbox", { name: "Automatically check my followed products" });
+  await checksA.click();
+  await expect(checksA).toBeChecked();
+  await expect(checksB).not.toBeChecked();
+  await checksA.click();
+  await expect(checksA).not.toBeChecked();
   const title = "Price watch test " + Date.now();
   await a.page.getByLabel("Amazon ASIN", { exact: true }).fill("B0DZ75TN5F");
   await a.page.getByLabel("Product name", { exact: true }).fill(title);
@@ -262,11 +269,6 @@ test("private price watches survive reload, support targets and pause, and rejec
       }, { name, input }) as { ok?: boolean; result?: { success?: boolean } };
       expect(result.ok === false || result.result?.success === false).toBe(true);
     }
-    const denied = await a.page.evaluate(async () => {
-      const { actionHeaders } = await import(String("/src/buysmart/actions-client.ts"));
-      return (await fetch("/api/actions/setPriceMonitoring", { method: "POST", headers: await actionHeaders(), body: JSON.stringify({ enabled: true, confirm: true }) })).json();
-    }) as { success: boolean };
-    expect(denied.success).toBe(false);
     await a.page.setViewportSize({ width: 390, height: 844 });
     await card.screenshot({ path: "docs/screenshots/mobile-price-watches.png" });
     expect(await a.page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);

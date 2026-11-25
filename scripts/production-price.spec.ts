@@ -6,6 +6,12 @@ test("production price watch CRUD and private isolation", async ({ users }) => {
   await Promise.all([a.page.goto("/home"), b.page.goto("/home")]);
   await a.page.getByRole("button", { name: "Price alerts", exact: true }).click();
   await b.page.getByRole("button", { name: "Price alerts", exact: true }).click();
+  const checksA = a.page.getByRole("checkbox", { name: "Automatically check my followed products" });
+  const checksB = b.page.getByRole("checkbox", { name: "Automatically check my followed products" });
+  await expect(a.page.getByText(/No products followed yet/)).toBeVisible();
+  await checksA.click(); await expect(checksA).toBeChecked();
+  await expect(checksB).not.toBeChecked();
+  await checksA.click(); await expect(checksA).not.toBeChecked();
   const title = "Production watch check " + Date.now();
   await a.page.getByLabel("Amazon ASIN", { exact: true }).fill("B0DZ75TN5F");
   await a.page.getByLabel("Product name", { exact: true }).fill(title);

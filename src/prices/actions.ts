@@ -33,12 +33,11 @@ export const priceActions: Record<string, ActionHandler<Env>> = {
       ...(input.data.target !== undefined && report ? { report: advanceReport(config, report, report.history, report.checkedAt, report.error) } : {}) });
   },
   priceMonitorStatus: async ({ userId, env }) => {
-    const status = await monitor(env, { op: "status" });
-    return { success: true, data: { ...status, owner: userId === env.OWNER_USER_ID,
-      eligible: env.LIVE_ENABLED === "true" && (env.LIVE_USER_IDS ?? "").split(",").map(s => s.trim()).includes(userId) } };
+    return { success: true, data: await monitor(env, { op: "status", userId }) };
   },
   setPriceMonitoring: async ({ userId, params, env }) => {
-    if (userId !== env.OWNER_USER_ID || params.confirm !== true || typeof params.enabled !== "boolean") return { success: false, error: "Only the owner can explicitly authorize or pause scheduled spending." };
-    return { success: true, data: await monitor(env, { op: "enable", enabled: params.enabled }) };
+    if (params.confirm !== true || typeof params.enabled !== "boolean") return { success: false, error: "Explicitly choose whether to enable your scheduled price checks." };
+    // Always use the verified caller; parameters cannot select another user's preferences.
+    return { success: true, data: await monitor(env, { op: "enable", userId, enabled: params.enabled }) };
   },
 };

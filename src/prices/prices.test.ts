@@ -1,5 +1,5 @@
 import { afterEach, expect, it, vi } from "vitest";
-import type { CronContext } from "deepspace/worker";
+import type { CronContext, ActionTools } from "deepspace/worker";
 import type { Env } from "../../worker";
 import { PriceMonitor } from "./PriceMonitor";
 import { advanceReport, type WatchConfig, type Observation } from "./model";
@@ -15,7 +15,7 @@ function harness() {
   const service = new PriceMonitor({ storage } as unknown as DurableObjectState);
   const env = { OWNER_USER_ID: "owner", LIVE_ENABLED: "true", LIVE_USER_IDS: "alice,bob", PRICE_MONITOR: { idFromName: () => "global", get: () => ({ fetch: (r: Request) => service.fetch(r) }) } } as unknown as Env;
   const call = async (op: string, params: Record<string, unknown> = {}) => {
-    const response = await service.fetch(new Request("https://internal", { method: "POST", body: JSON.stringify({ op, ...params }) }));
+    const response = await service.fetch(new Request("https://internal", { method: "POST", body: JSON.stringify({ op, userId: "alice", ...params }) }));
     return { status: response.status, ...await response.json() as { state?: string; enabled?: boolean; remaining?: number; token?: string; runId?: string; history?: Observation[]; error?: string } };
   };
   return { env, call };
@@ -76,7 +76,8 @@ it("pins direct ASIN extraction to one item and a small provider budget", () => 
     input: { categoryOrProductUrls: [{ url: "https://www.amazon.com/dp/B0DZ75TN5F" }], maxItemsPerStartUrl: 1, maxOffers: 0, scrapeSellers: false } });
 });
 it("cron shares one unwrapped integration job across two owners and repeats without paid starts", async () => {
-  const { env, call } = harness(); await call("enable", { enabled: true });
+  const { env, call } = harness(); await call("enable", { enabled: true }); await call("enable", { enabled: true, userId: "bob" });
+  env.LIVE_ENABLED = "false"; env.LIVE_USER_IDS = "";
   const rows = ["alice", "bob"].map((user, i) => ({ recordId: `watch${i}`, createdBy: user, data: { config: { ...config, target: 400 }, report: undefined as unknown } }));
   const query = vi.fn(async (_collection: string, options?: { where?: { recordId: string } }) => options?.where ? rows.filter(r => r.recordId === options.where?.recordId) : rows);
   const update = vi.fn(async (_collection, id, patch) => { Object.assign(rows.find(r => r.recordId === id)!.data, patch); });
@@ -90,6 +91,28 @@ it("cron shares one unwrapped integration job across two owners and repeats with
   expect(integration).toHaveBeenCalledTimes(2);
 });
 it("disabled cron does not access integrations or records", async () => {
-  const { env } = harness(); const ctx = { records: { query: vi.fn() }, integrations: { call: vi.fn() } } as unknown as CronContext;
-  await runPriceChecks(env, ctx); expect(ctx.records.query).not.toHaveBeenCalled(); expect(ctx.integrations.call).not.toHaveBeenCalled();
+  const { env } = harness(); const ctx = { records: { query: vi.fn(async () => []) }, integrations: { call: vi.fn() } } as unknown as CronContext;
+  await runPriceChecks(env, ctx); expect(ctx.records.query).toHaveBeenCalledOnce(); expect(ctx.integrations.call).not.toHaveBeenCalled();
+});
+
+it("personal consent is independent and disabling one account cannot disable another", async () => {
+  const { call } = harness();
+  await call("enable", { enabled: true });
+  expect((await call("status", { userId: "bob" })).enabled).toBe(false);
+  expect((await call("reserve", { asin: config.asin, userId: "bob" })).state).toBe("paused");
+  await call("enable", { enabled: true, userId: "bob" });
+  await call("enable", { enabled: false });
+  expect((await call("status")).enabled).toBe(false);
+  expect((await call("status", { userId: "bob" })).enabled).toBe(true);
+  expect((await call("reserve", { asin: config.asin, userId: "bob" })).state).toBe("reserved");
+});
+
+it("ordinary accounts can opt in but cannot select another user's consent through parameters", async () => {
+  const { priceActions } = await import("./actions");
+  const { env, call } = harness();
+  const result = await priceActions.setPriceMonitoring({ userId: "alice", params: { enabled: true, confirm: true, userId: "bob" }, env, tools: {} as ActionTools, callerJwt: "test-only" });
+  expect(result.success).toBe(true);
+  expect((await call("status")).enabled).toBe(true);
+  expect((await call("status", { userId: "bob" })).enabled).toBe(false);
+  expect((await call("status")).remaining).toBe(20);
 });
