@@ -979,3 +979,25 @@
   .scope-facts { border-left: 0; border-top: 1px solid #d6dfcf; padding: 16px 0 0; }
   .how-grid { gap: 14px; }
 }
+
+.price-watches h2 { display: flex; align-items: center; gap: 8px; font-size: 20px; }
+.monitor-status { padding: 12px 16px; border-left: 3px solid #bdc9b4; background: #f9fbf5; }
+.watch-form, .watch-card { padding: 24px; border: 1px solid #d8ded4; border-radius: 12px; background: #fff; margin-top: 20px; min-width: 0; }
+.watch-form-fields { display: grid; grid-template-columns: 1fr 2fr 1fr auto; align-items: end; gap: 14px; margin-top: 18px; }
+.price-watches input { display: block; border: 1px solid #cad5ca; border-radius: 6px; padding: 10px; width: 100%; margin-top: 6px; min-width: 0; }
+.price-watches input[type=checkbox] { display: inline; width: auto; margin-right: 6px; }
+.watch-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.watch-card h3 { margin: 14px 0 8px; overflow-wrap: anywhere; }
+.watch-card svg { width: 100%; max-height: 130px; margin-top: 12px; }
+.watch-card details { font-size: 12px; margin: 12px 0; }
+.watch-edit, .watch-actions { display: flex; align-items: end; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
+.watch-edit label { flex: 1; min-width: 120px; }
+.target-alert { background: #e9f4e7; border: 1px solid #aecbac; padding: 16px; border-radius: 8px; margin: 14px 0; }
+.bs .follow-price { width: 100%; color: var(--green); padding: 12px; margin-top: 6px; text-decoration: underline; }
+@media (max-width: 1050px) { .watch-form-fields { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 700px) {
+  .bs nav { gap: 0; flex-wrap: wrap; height: auto; }
+  .bs nav button { padding: 12px 8px; font-size: 12px; }
+  .watch-grid, .watch-form-fields { grid-template-columns: minmax(0, 1fr); }
+  .watch-form, .watch-card { padding: 18px; }
+}

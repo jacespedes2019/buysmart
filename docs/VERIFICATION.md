@@ -4,8 +4,8 @@
 
 - Type checking covers client/Worker source plus tooling, scripts and browser tests through separate configs.
 - ESLint checks hooks and focused correctness rules.
-- Unit suite: **50 passed in 8 files**, including search-intent synchronization, server-side contradiction rejection, twelve-candidate selection, same-brand model preservation, query cleanup, and unlimited search admission.
-- Browser suite: **19 passed, zero skips**, including native two-account CRUD and direct foreign-ID denial.
+- Unit suite: **58 passed in 9 files**, including search-intent synchronization, server-side contradiction rejection, twelve-candidate selection, same-brand model preservation, query cleanup, and unlimited search admission.
+- Browser suite: **21 passed, zero skips**, including native two-account CRUD and direct foreign-ID denial.
 - Production build compiles Worker/client and prerenders the public demo. It runs both type checks first.
 - `npm audit --json`: **zero vulnerabilities** after resolving esbuild to 0.28.2.
 
@@ -55,3 +55,11 @@ Submission draft: SUBMISSION.md. Candidate verification remains explicitly incom
 Live URL: https://buysmart.app.space. Release `rel_01M8842V6R3PK24PYCECJ0XDBS`, source commit `c2f6b51`, clean GitHub working tree. DeepSpace reported `serving: confirmed` and `dataPlane: confirmed`. The app's first release selected GitHub source (`jacespedes2019/buysmart`).
 
 Four Playwright checks ran against the real deployed URL and passed: full desktop demo journey, full mobile demo journey, bidirectional text/filter synchronization with ambiguity blocking, and native private save/reload/reopen/delete with two separate authenticated accounts verifying isolation. These flows used demo products and did not trigger paid integrations. Screenshots under docs/screenshots/ now reflect the production demo. Candidate personal verification remains separate.
+
+## November 24 — private price tracking
+
+Added private target-price watches, own-record read/delete, server-validated configuration changes, history charts and dated threshold alerts, acknowledgement/rearming, and a no-credit synthetic preview. Native CronRoom wakes every 15 minutes; a new PriceMonitor Durable Object shares one ASIN extraction per 24 hours, five paid starts per UTC day and twenty total. Owner consent is required to enable the initially disabled monitor; only live-approved accounts are eligible. Direct extraction caps provider charge at USD 0.005 with one result. Exa/OpenAI are not involved.
+
+Validation: 58 unit tests / 9 files, 21 browser tests with zero skips, type checks, lint and build. New tests exercise same-ASIN concurrency, stale lease fencing, interrupted run reuse, budget exhaustion, seller changes, alert threshold/rearm semantics, shared cron updates, private watch CRUD/reload/targets/pause, non-owner activation refusal and foreign-ID/native-tool denials. The installed SDK unwrapped CronContext integration contract was inspected and tested. Mobile watch screenshot: docs/screenshots/mobile-price-watches.png.
+
+One authorized exact-ASIN paid probe returned B0DZ75TN5F at USD 379 with seller and variant metadata; one start plus three free polls cost USD 0.02 (2 credits), within USD 0.05. Evidence: docs/live-verification/exact-asin-1795570415140/. No scheduled paid monitoring was enabled, and no additional Exa/OpenAI calls were made.

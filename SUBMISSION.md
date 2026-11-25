@@ -6,7 +6,7 @@ Live app: https://buysmart.app.space
 
 Deployment verified November 24, 2026.
 
-BuySmart is a focused electronics-comparison workspace built on DeepSpace. Users describe a need, review synchronized budget/category fields, compare up to four configurations with a deterministic weighted score, and save private comparisons. The public demo is explicitly synthetic and consumes no integration credits; live research is limited to approved accounts.
+BuySmart is a focused electronics-comparison workspace built on DeepSpace. Users describe a need, review synchronized budget/category fields, compare up to four configurations with a deterministic weighted score, and save private comparisons. A price watchlist adds target-price alerts and dated observations, with native scheduled jobs, shared ASIN checks and explicit owner consent for bounded recurring spend. The public demo is explicitly synthetic and consumes no integration credits; live research is limited to approved accounts.
 
 Three useful DeepSpace integrations power research: Apify supplies Amazon offer snapshots; Exa retrieves manufacturer/review excerpts; OpenAI extracts brief specifications with literal quotes and conservative model checks. Native DeepSpace authentication, records and ownership permissions, server actions, and a Durable Object provide the application backend, private persistence, cached results and duplicate-request suppression.
 
@@ -15,3 +15,5 @@ The main tradeoff is conservative evidence rather than an impressive-looking AI 
 The coding agent implemented, deployed and reviewed the application, corrected integration/security issues, added automated coverage, refined the responsive interface, and ran the checks documented in docs/VERIFICATION.md. The latest authorized paid check exercised Amazon discovery only (USD 0.176, within a USD 0.50 authorization); fresh Exa/OpenAI calls were omitted because Exa's reservation can exceed that authorization. Their earlier live results and offline replays are documented separately.
 
 Applicant verification — complete personally before portal submission: use the deployed search/compare/save/reopen flow; inspect an exact product and its cited sources; explain and modify the ranking and ownership checks; describe which agent changes you reviewed or corrected. Automated agent checks must not be presented as personal verification. This note has not been submitted to the portal.
+
+Price tracking status: public synthetic preview and private CRUD are available; automated paid checks start paused, are limited to approved accounts, and require explicit owner activation. A separately authorized exact-ASIN probe succeeded at USD 0.02; a production scheduled-task execution receipt remains pending because recurring paid monitoring has not been enabled. The retained-history minimum is explicitly labeled, not presented as Amazon’s all-time low.

@@ -8,6 +8,7 @@
  */
 
 import type { CollectionSchema } from 'deepspace/schema'
+import { priceWatchesSchema } from './schemas/price-watches-schema'
 import { comparisonsSchema } from './schemas/comparisons-schema'
 import { usersSchema } from './schemas/users-schema'
 import { settingsSchema } from './schemas/admin-schema'
@@ -15,5 +16,6 @@ import { settingsSchema } from './schemas/admin-schema'
 export const schemas: CollectionSchema[] = [
   usersSchema,
   comparisonsSchema,
+  priceWatchesSchema,
   settingsSchema,
 ]

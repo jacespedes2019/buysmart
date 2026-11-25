@@ -5,6 +5,7 @@
  * here: specific API and WebSocket handlers must precede the SPA fallback.
  */
 
+export { PriceMonitor } from './src/prices/PriceMonitor'
 export { ResearchGate } from './src/buysmart/ResearchGate'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
@@ -37,6 +38,7 @@ import { registerRealtimeRoutes } from './src/server/realtime-routes.js'
 
 // Dynamic deploy reads this manifest to create the app's DO bindings.
 export const __DO_MANIFEST__ = [
+  { binding: 'PRICE_MONITOR', className: 'PriceMonitor', sqlite: true },
   { binding: 'RESEARCH_GATE', className: 'ResearchGate', sqlite: true },
   { binding: 'RECORD_ROOMS', className: 'AppRecordRoom', sqlite: true },
   { binding: 'YJS_ROOMS', className: 'AppYjsRoom', sqlite: true },
@@ -111,6 +113,7 @@ export interface Env extends DOBindings<typeof __DO_MANIFEST__> {
   APP_NAME: string
   /** Immutable record-scope and platform identity. */
   DEEPSPACE_APP_ID: string
+  PRICE_MONITOR: DurableObjectNamespace
   OWNER_USER_ID: string
   /**
    * Long-lived owner JWT used for developer-billed server calls. User-billed

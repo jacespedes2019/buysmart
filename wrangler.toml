@@ -41,6 +41,7 @@ new_sqlite_classes = ["ResearchGate", "AppRecordRoom", "AppYjsRoom", "AppCanvasR
 
 [durable_objects]
 bindings = [
+  { name = "PRICE_MONITOR", class_name = "PriceMonitor" },
   { name = "RESEARCH_GATE", class_name = "ResearchGate" },
   { name = "RECORD_ROOMS", class_name = "AppRecordRoom" },
   { name = "YJS_ROOMS", class_name = "AppYjsRoom" },
@@ -77,3 +78,7 @@ bindings = [
 [dev]
 port = 8780
 inspector_port = 9237
+
+[[migrations]]
+tag = "price-monitor-v1"
+new_sqlite_classes = ["PriceMonitor"]

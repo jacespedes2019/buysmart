@@ -218,3 +218,60 @@ test("native tool requests cannot read, update, delete, or overwrite another use
     }, { path: modulePath, recordId });
   }
 });
+
+test("private price watches survive reload, support targets and pause, and reject foreign edits", async ({ users }) => {
+  const [a,b] = await users(2);
+  await Promise.all([a.page.goto("/home"), b.page.goto("/home")]);
+  await a.page.getByRole("button", { name: "Price alerts", exact: true }).click();
+  await b.page.getByRole("button", { name: "Price alerts", exact: true }).click();
+  const title = "Price watch test " + Date.now();
+  await a.page.getByLabel("Amazon ASIN", { exact: true }).fill("B0DZ75TN5F");
+  await a.page.getByLabel("Product name", { exact: true }).fill(title);
+  await a.page.getByLabel("Target price (USD)", { exact: true }).fill("300");
+  const created = a.page.waitForResponse(r => r.url().endsWith("/api/actions/watchPrice"));
+  await a.page.getByRole("button", { name: "Save price watch", exact: true }).click();
+  const body = await (await created).json(); expect(body.success).toBe(true);
+  const id = body.data.recordId as string;
+  const card = a.page.locator(".watch-card").filter({ hasText: title });
+  try {
+    await expect(card).toContainText("No observed prices yet");
+    await expect(b.page.getByRole("heading", { name: title, exact: true })).toHaveCount(0);
+    await a.page.reload(); await a.page.getByRole("button", { name: "Price alerts", exact: true }).click();
+    await expect(card).toBeVisible();
+    await card.getByLabel("Target for " + title, { exact: true }).fill("250");
+    await card.getByRole("button", { name: "Update target", exact: true }).click();
+    await expect(card).toContainText("Target: $250");
+    await card.getByRole("button", { name: "Pause watch", exact: true }).click();
+    await expect(card.getByRole("button", { name: "Resume watch", exact: true })).toBeVisible();
+    await card.getByRole("button", { name: "Resume watch", exact: true }).click();
+    await expect(card.getByRole("button", { name: "Pause watch", exact: true })).toBeVisible();
+    const foreign = await b.page.evaluate(async recordId => {
+      const { actionHeaders } = await import(String("/src/buysmart/actions-client.ts"));
+      return (await fetch("/api/actions/editPriceWatch", { method: "POST", headers: await actionHeaders(), body: JSON.stringify({ id: recordId, target: 1 }) })).json();
+    }, id) as { success: boolean };
+    expect(foreign.success).toBe(false);
+    for (const [name, input] of [
+      ["records_get", { collection: "priceWatches", recordId: id }],
+      ["records_update", { collection: "priceWatches", recordId: id, data: { report: { history: [{ price: 1 }] } } }],
+      ["records_delete", { collection: "priceWatches", recordId: id }],
+      ["records_create", { collection: "priceWatches", recordId: id, data: { config: {} } }],
+    ] as const) {
+      const result = await b.page.evaluate(async ({ name, input }) => {
+        const { actionHeaders } = await import(String("/src/buysmart/actions-client.ts"));
+        return (await fetch(`/_deepspace/agent/browser/tools/${name}`, { method: "POST", headers: await actionHeaders(), body: JSON.stringify({ input }) })).json();
+      }, { name, input }) as { ok?: boolean; result?: { success?: boolean } };
+      expect(result.ok === false || result.result?.success === false).toBe(true);
+    }
+    const denied = await a.page.evaluate(async () => {
+      const { actionHeaders } = await import(String("/src/buysmart/actions-client.ts"));
+      return (await fetch("/api/actions/setPriceMonitoring", { method: "POST", headers: await actionHeaders(), body: JSON.stringify({ enabled: true, confirm: true }) })).json();
+    }) as { success: boolean };
+    expect(denied.success).toBe(false);
+    await a.page.setViewportSize({ width: 390, height: 844 });
+    await card.screenshot({ path: "docs/screenshots/mobile-price-watches.png" });
+    expect(await a.page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  } finally {
+    await card.getByRole("button", { name: "Delete watch", exact: true }).click();
+    await expect(card).toHaveCount(0);
+  }
+});

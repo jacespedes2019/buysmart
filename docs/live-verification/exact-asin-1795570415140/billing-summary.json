@@ -1,0 +1,11 @@
+{
+  "approvedMaximumUsd": 0.05,
+  "netCredits": 2.0,
+  "netUsd": 0.02,
+  "paidStarts": 1,
+  "totalCalls": 4,
+  "asin": "B0DZ75TN5F",
+  "price": 379,
+  "schedulerEnabled": false,
+  "note": "One direct-ASIN probe; no Exa/OpenAI or enabled scheduled spending."
+}

@@ -1,3 +1,4 @@
+import { priceActions } from "../prices/actions";
 import type { ActionHandler } from "deepspace/worker";
 import type { Env } from "../../worker";
 import { comparisonSchema, discoverySchema, searchSchema, type Discovery } from "../buysmart/model";
@@ -55,4 +56,4 @@ const saveComparison: ActionHandler<Env> = async ({ params, tools }) => {
 const researchStatus: ActionHandler<Env> = async ({ userId, env }) => {
   return { success: true, data: { enabled: liveAllowed(userId, env) } };
 };
-export const actions: Record<string, ActionHandler<Env>> = { discover, saveComparison, researchStatus };
+export const actions: Record<string, ActionHandler<Env>> = { discover, saveComparison, researchStatus, ...priceActions };

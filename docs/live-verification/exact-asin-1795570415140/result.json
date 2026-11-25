@@ -1,0 +1,56 @@
+{
+  "products": [
+    {
+      "id": "B0DZ75TN5F",
+      "name": "Apple iPad 11-inch: A16 chip, 11-inch Model, Liquid Retina Display, 128GB, Wi-Fi 6, 12MP Front/12MP Back Camera, Touch ID, All-Day Battery Life — Blue",
+      "price": 379,
+      "rating": 4.7,
+      "url": "https://www.amazon.com/dp/B0DZ75TN5F",
+      "image": "https://m.media-amazon.com/images/I/61aPY8odPSL._AC_SX342_SY445_QL70_FMwebp_.jpg",
+      "offer": {
+        "provider": "apify",
+        "currency": "USD",
+        "market": "US",
+        "observedAt": "2026-11-25T01:33:35.140Z",
+        "inStock": true,
+        "seller": "Amazon.com",
+        "shipping": null,
+        "variant": "Style: Wi-Fi · Size: 128GB · Color: Blue · Configuration: Without AppleCare+"
+      },
+      "specs": [
+        {
+          "label": "Memory Storage Capacity",
+          "value": "128 GB",
+          "sourceUrl": "https://www.amazon.com/dp/B0DZ75TN5F"
+        },
+        {
+          "label": "Screen Size",
+          "value": "11 inches",
+          "sourceUrl": "https://www.amazon.com/dp/B0DZ75TN5F"
+        },
+        {
+          "label": "Display Resolution Maximum",
+          "value": "2360-by-1640-pixel resolution at 264 (ppi) pixels",
+          "sourceUrl": "https://www.amazon.com/dp/B0DZ75TN5F"
+        }
+      ],
+      "strengths": [],
+      "weaknesses": [],
+      "evidence": {
+        "performance": null,
+        "compatibility": null,
+        "features": null
+      },
+      "sources": [
+        {
+          "title": "Amazon product data via Apify",
+          "url": "https://www.amazon.com/dp/B0DZ75TN5F",
+          "excerpt": "Observed 2026-11-25T01:33:35.140Z. USD 379. Style: Wi-Fi · Size: 128GB · Color: Blue · Configuration: Without AppleCare+. Taxes excluded; verify shipping and checkout total."
+        }
+      ]
+    }
+  ],
+  "starts": 1,
+  "calls": 4,
+  "note": "One exact-ASIN probe; scheduler not enabled; no Exa/OpenAI."
+}

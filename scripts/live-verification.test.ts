@@ -69,3 +69,31 @@ test.skipIf(process.env.BUYSMART_APPROVED_LIVE_TEST !== "true")("approved market
   expect(products.some(p => p.price !== null)).toBe(true);
   console.info(JSON.stringify({ directory, products: products.map(p => ({ id: p.id, name: p.name, price: p.price })) }));
 }, 180000);
+
+test.skipIf(process.env.BUYSMART_APPROVED_LIVE_TEST !== "true")("approved exact-ASIN price probe", async () => {
+  const { discoverMarketplace } = await import("../src/buysmart/apify");
+  const { directPriceRequest } = await import("../src/prices/runner");
+  const asin = "B0DZ75TN5F";
+  const directory = `docs/live-verification/exact-asin-${Date.now()}`;
+  mkdirSync(directory, { recursive: true });
+  let starts = 0; let calls = 0;
+  const products = await discoverMarketplace(async (endpoint, body) => {
+    if (!["apify/run-actor", "apify/get-run"].includes(endpoint)) throw new Error("Unapproved endpoint");
+    if (endpoint === "apify/run-actor" && ++starts > 1) throw new Error("No paid retries");
+    const payload = endpoint === "apify/run-actor" ? directPriceRequest(asin) : body;
+    const file = `${directory}/${++calls}-request.json`;
+    writeFileSync(file, JSON.stringify(payload, null, 2));
+    const output = execFileSync("npx", ["--no-install", "deepspace", "integrations", "invoke", endpoint, "--body-file", file,
+      ...(endpoint === "apify/run-actor" ? ["--yes"] : []), "--timeout", "30000", "--json"], { encoding: "utf8", timeout: 35000 });
+    writeFileSync(`${directory}/${calls}-response.json`, output);
+    const envelope = JSON.parse(output);
+    if (!envelope.success) throw new Error("Exact-ASIN probe failed; no retry made");
+    return envelope.data;
+  }, { query: "Exact Amazon product", budget: 10000, category: "Tablets" });
+  writeFileSync(`${directory}/result.json`, JSON.stringify({ products, starts, calls, note: "One exact-ASIN probe; scheduler not enabled; no Exa/OpenAI." }, null, 2));
+  expect(products).toHaveLength(1);
+  expect(products[0].id).toBe(asin);
+  expect(products[0].price).not.toBeNull();
+  expect(products[0].offer).toMatchObject({ inStock: true });
+  expect(products[0].offer?.seller).toBeTruthy(); expect(products[0].offer?.variant).toBeTruthy();
+}, 180000);

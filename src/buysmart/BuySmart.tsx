@@ -1,3 +1,4 @@
+import { PriceAlertPreview } from "../prices/PriceAlertPreview";
 import { EvidenceScope } from "./EvidenceScope";
 import { ProductCard } from "./ProductCard";
 import { ComparisonTable } from "./ComparisonTable";
@@ -5,6 +6,7 @@ import { WeightsPanel } from "./WeightsPanel";
 import { HistoryList } from "./HistoryList";
 import { useEffect, useRef, useState } from "react";
 import {
+  Bell,
   ArrowRight,
   ArrowUpRight,
   BarChart3,
@@ -27,6 +29,7 @@ import {
   type Discovery,
   type ProductProvider,
   type Weights,
+  type Product,
 } from "./model";
 import { rankProducts, normalizeWeights, withinBudget } from "./ranking";
 import { mockProvider } from "./fixtures";
@@ -35,6 +38,9 @@ import "./buysmart.css";
 import { readSearchIntent, rewriteBudget, rewriteCategory, searchIntentConflict } from "./search-intent";
 interface Props {
   provider?: ProductProvider;
+  watchPanel?: React.ReactNode;
+  watchAlertCount?: number;
+  onTrack?: (product: Product) => void;
   cloudHistory?: Comparison[];
   onSave?: (c: Comparison) => Promise<void>;
   onDelete?: (id: string) => Promise<void>;
@@ -51,6 +57,9 @@ const examples = [
 ];
 export default function BuySmart({
   provider = mockProvider,
+  watchPanel,
+  watchAlertCount = 0,
+  onTrack,
   cloudHistory,
   onSave,
   onDelete,
@@ -60,7 +69,7 @@ export default function BuySmart({
   live = false,
   persistenceReady = true,
 }: Props) {
-  const [page, setPage] = useState<"discover" | "compare" | "history">(
+  const [page, setPage] = useState<"discover" | "compare" | "history" | "watchlist">(
     "discover",
   );
   const [query, setQuery] = useState(examples[0]);
@@ -251,6 +260,7 @@ export default function BuySmart({
             <History size={16} />
             History
           </button>
+          <button className={page === "watchlist" ? "active" : ""} aria-current={page === "watchlist" ? "page" : undefined} onClick={() => setPage("watchlist")}><Bell size={16} /> Price alerts{watchAlertCount > 0 && <b title={`${watchAlertCount} unread price alerts`}>{watchAlertCount}</b>}</button>
         </nav>
         <div className="account">
           {account ?? (
@@ -269,7 +279,7 @@ export default function BuySmart({
           <span />{" "}
           {live ? "LIVE RESEARCH WORKSPACE" : "THE THOUGHTFUL WAY TO SHOP"}
         </div>
-        {page === "history" ? (
+        {page === "watchlist" ? <><div className="page-heading"><h1 tabIndex={-1}>A better price, on your terms.</h1></div>{watchPanel ?? <><PriceAlertPreview /><div className="empty"><Bell size={28} /><h2>Follow a price. Keep your shortlist.</h2><p>Sign in to set a target for an exact Amazon ASIN and keep private price observations. Automated checks require owner authorization and integration credits.</p><a href="/home">Sign in for price alerts ↗</a></div></>}</> : page === "history" ? (
           <>
             <div className="page-heading">
               <div>
@@ -523,6 +533,7 @@ export default function BuySmart({
                           key={r.product.id}
                           r={r}
                           live={snapshotMode === "live"}
+                          onTrack={onTrack ? product => { onTrack(product); setPage("watchlist"); } : undefined}
                           isTopMatch={r.product.id === ranked[0]?.product.id && r.score > 0 && (ranked.length === 1 || r.score > ranked[1].score + 1e-9)}
                           category={resultCategory}
                           selected={selected}

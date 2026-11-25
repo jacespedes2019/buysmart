@@ -2,11 +2,13 @@ import { Laptop, Check, ArrowUpRight } from "lucide-react";
 import { money, productLinkLabel } from "./format";
 import { useState } from "react";
 import { OfferDetails } from "./OfferDetails";
+import type { Product } from "./model";
 import type { scoreProduct } from "./ranking";
 import type { Dispatch, SetStateAction } from "react";
 export function ProductCard({
   r,
   live = false,
+  onTrack,
   isTopMatch,
   category,
   selected,
@@ -14,6 +16,7 @@ export function ProductCard({
 }: {
   r: ReturnType<typeof scoreProduct>;
   live?: boolean;
+  onTrack?: (product: Product) => void;
   isTopMatch: boolean;
   category: string;
   selected: string[];
@@ -96,6 +99,7 @@ export function ProductCard({
             "Add to comparison"
           )}
         </button>
+        {live && r.product.offer && <button className="follow-price" onClick={() => onTrack ? onTrack(r.product) : window.location.assign("/home")}>Follow price</button>}
         <details>
           <summary>Sources & specifications</summary>
           {r.product.specs.map((s) => (

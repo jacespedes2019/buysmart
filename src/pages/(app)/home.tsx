@@ -1,6 +1,8 @@
 /* home pattern: search-first — product discovery and comparison workspace */
 import { useEffect, useState } from "react";
 import { AuthOverlay, useAuth, useMutations, useQuery, signOut } from "deepspace";
+import { watchConfigSchema, reportSchema } from "../../prices/model";
+import { PriceWatches, type WatchDraft } from "../../prices/PriceWatches";
 import BuySmart from "../../buysmart/BuySmart";
 import { comparisonSchema, type Comparison, type Discovery, type ProductProvider } from "../../buysmart/model";
 import { callAction } from "../../buysmart/actions-client";
@@ -8,10 +10,17 @@ const liveProvider: ProductProvider = { search: (input, signal) => callAction<Di
 interface ResearchStatus { enabled: boolean; }
 export default function Home() {
   const { isSignedIn, userId } = useAuth();
+  const [watchDraft, setWatchDraft] = useState<WatchDraft>();
   const [auth, setAuth] = useState(false);
   const [live, setLive] = useState(false);
   const [researchStatus, setResearchStatus] = useState<ResearchStatus | null>(null);
   const [accountError, setAccountError] = useState("");
+  const { records: priceRecords } = useQuery<{ config: unknown; report?: unknown }>("priceWatches");
+  const watchAlertCount = priceRecords.filter(row => {
+    const config = watchConfigSchema.safeParse(row.data.config).data;
+    const report = reportSchema.safeParse(row.data.report).data;
+    return config && !config.paused && report?.targetUsed === config.target && report.alert && report.alert.key !== config.acknowledged;
+  }).length;
   const { records } = useQuery<{ snapshot: Comparison }>("comparisons");
   const mutations = useMutations<{ snapshot: Comparison }>("comparisons");
   useEffect(() => {
@@ -30,6 +39,9 @@ export default function Home() {
   return <>
     <BuySmart
       key={String(userId)}
+      watchAlertCount={isSignedIn ? watchAlertCount : 0}
+      watchPanel={isSignedIn ? <PriceWatches key={String(userId)} draft={watchDraft} /> : undefined}
+      onTrack={isSignedIn ? product => setWatchDraft({ asin: product.id, title: product.name, target: product.price ? Math.round(product.price * 90) / 100 : 300 }) : undefined}
       persistenceReady={!isSignedIn || mutations.ready}
       live={activeLive}
       provider={activeLive ? liveProvider : undefined}

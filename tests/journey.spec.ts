@@ -175,3 +175,17 @@ test("text and fields stay synchronized and ambiguous requirements block researc
   await expect(page.locator(".product-card")).toHaveCount(4);
   expect(requests).toEqual([]);
 });
+
+test("price alert preview labels synthetic history and never calls paid endpoints", async ({ page }) => {
+  const requests: string[] = [];
+  page.on("request", r => { if (/\/api\/(actions|integrations)\//.test(r.url())) requests.push(r.url()); });
+  await page.goto("/");
+  await page.getByRole("button", { name: "Price alerts", exact: true }).click();
+  await expect(page.getByText("ILLUSTRATIVE PREVIEW · SYNTHETIC DATA", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Simulate price drop" }).click();
+  await expect(page.getByRole("status")).toContainText("Demo target reached: $299");
+  await expect(page.getByRole("img", { name: /Observed USD price history/ })).toBeVisible();
+  await page.getByRole("button", { name: "Reset preview" }).click();
+  await expect(page.getByRole("status")).toHaveCount(0);
+  expect(requests).toEqual([]);
+});
