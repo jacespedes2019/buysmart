@@ -81,3 +81,5 @@ Personal opt-in release: `rel_01M886ZEN138FPQQMWH8CP6CYM`, source commit `12df8e
 ## Live discovery for every signed-in account
 
 Removed the exact-user allowlist from live product discovery. Verified authentication is still required at the server action boundary; the app-wide LIVE_ENABLED switch remains available for operational pauses. Live research stays opt-in in the interface, with no automatic paid calls on login. Anonymous discovery remains rejected. Unit/transport checks cover ordinary users, anonymous rejection and cache reuse without another integration invocation. Search cost ownership and the separate shared price-monitor budget are unchanged.
+
+Discovery access release: `rel_01M887EF8PGGQRYNAZRXGJQ7CX`, clean source commit `dffe192`, serving/data plane confirmed. All 60 unit tests and 21 local browser tests passed, together with type checks, lint and build. Two production checks passed; both ordinary accounts had an enabled Live research switch, and one switched into live mode and back without submitting a paid search. Personal alert opt-in/isolation, private watch CRUD and delayed hydration checks also passed. No paid integrations were called.
