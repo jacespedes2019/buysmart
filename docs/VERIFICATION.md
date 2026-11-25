@@ -49,3 +49,9 @@ Refined desktop/mobile spacing, typography, search hierarchy and product cards. 
 An authorized marketplace-only probe used the actual cleaned query `tablet apple ipad`, up to twelve candidates, one paid start and nine free polls. Four priced configurations survived selection: A16 256GB (USD 479.99), A16 128GB (USD 379), renewed 8th-generation 32GB (USD 119), and a renewed 2020 32GB listing (USD 118). These are observed listings, not a promise of four model families; uncertain identity differences are preserved. Probe evidence: docs/live-verification/variety-1795568924999/. Cost: USD 0.176 (17.6 credits), within the explicit USD 0.50 approval. No new Exa/OpenAI invocation was made: Exa can reserve USD 0.65, exceeding that authorization. Earlier live integration checks and replay evidence remain applicable, but are not a new full live search.
 
 Submission draft: SUBMISSION.md. Candidate verification remains explicitly incomplete until the applicant performs it.
+
+### Deployed release and production verification
+
+Live URL: https://buysmart.app.space. Release `rel_01M8842V6R3PK24PYCECJ0XDBS`, source commit `c2f6b51`, clean GitHub working tree. DeepSpace reported `serving: confirmed` and `dataPlane: confirmed`. The app's first release selected GitHub source (`jacespedes2019/buysmart`).
+
+Four Playwright checks ran against the real deployed URL and passed: full desktop demo journey, full mobile demo journey, bidirectional text/filter synchronization with ambiguity blocking, and native private save/reload/reopen/delete with two separate authenticated accounts verifying isolation. These flows used demo products and did not trigger paid integrations. Screenshots under docs/screenshots/ now reflect the production demo. Candidate personal verification remains separate.
