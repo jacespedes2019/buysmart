@@ -27,3 +27,20 @@ test("production price watch CRUD and private isolation", async ({ users }) => {
     await expect(card).toHaveCount(0);
   }
 });
+
+test("production SSR controls wait for hydration before accepting edits", async ({ page, request }) => {
+  const html = await (await request.get("/")).text();
+  expect(html).toMatch(/<textarea[^>]*disabled/);
+  let release!: () => void;
+  const gate = new Promise<void>(resolve => { release = resolve; });
+  await page.route("**/assets/*.js", async route => { await gate; await route.continue(); });
+  try {
+    await page.goto("/", { waitUntil: "commit" });
+    const query = page.getByLabel("Product requirements", { exact: true });
+    await expect(query).toBeDisabled();
+    release();
+    await expect(query).toBeEnabled();
+    await query.fill("A tablet under $500 for a graphic design student apple");
+    await expect(page.getByLabel("Maximum budget", { exact: true })).toHaveValue("500");
+  } finally { release(); }
+});

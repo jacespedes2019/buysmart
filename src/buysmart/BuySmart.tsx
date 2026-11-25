@@ -69,6 +69,8 @@ export default function BuySmart({
   live = false,
   persistenceReady = true,
 }: Props) {
+  const [interactiveReady, setInteractiveReady] = useState(false);
+  useEffect(() => setInteractiveReady(true), []);
   const [page, setPage] = useState<"discover" | "compare" | "history" | "watchlist">(
     "discover",
   );
@@ -227,7 +229,7 @@ export default function BuySmart({
     }
   }
   return (
-    <div className="bs" ref={rootRef}>
+    <div className="bs" ref={rootRef} aria-busy={!interactiveReady}>
       <header className="bs-header">
         <a href="/" className="brand">
           <span>
@@ -237,6 +239,7 @@ export default function BuySmart({
         </a>
         <nav data-testid="app-navigation" aria-label="Main navigation">
           <button
+            disabled={!interactiveReady}
             className={page === "discover" ? "active" : ""}
             aria-current={page === "discover" ? "page" : undefined}
             onClick={() => setPage("discover")}
@@ -245,6 +248,7 @@ export default function BuySmart({
             Discover
           </button>
           <button
+            disabled={!interactiveReady}
             className={page === "compare" ? "active" : ""}
             aria-current={page === "compare" ? "page" : undefined}
             onClick={() => setPage("compare")}
@@ -253,6 +257,7 @@ export default function BuySmart({
             Compare {selected.length > 0 && <b>{selected.length}</b>}
           </button>
           <button
+            disabled={!interactiveReady}
             className={page === "history" ? "active" : ""}
             aria-current={page === "history" ? "page" : undefined}
             onClick={() => setPage("history")}
@@ -260,7 +265,7 @@ export default function BuySmart({
             <History size={16} />
             History
           </button>
-          <button className={page === "watchlist" ? "active" : ""} aria-current={page === "watchlist" ? "page" : undefined} onClick={() => setPage("watchlist")}><Bell size={16} /> Price alerts{watchAlertCount > 0 && <b title={`${watchAlertCount} unread price alerts`}>{watchAlertCount}</b>}</button>
+          <button disabled={!interactiveReady} className={page === "watchlist" ? "active" : ""} aria-current={page === "watchlist" ? "page" : undefined} onClick={() => setPage("watchlist")}><Bell size={16} /> Price alerts{watchAlertCount > 0 && <b title={`${watchAlertCount} unread price alerts`}>{watchAlertCount}</b>}</button>
         </nav>
         <div className="account">
           {account ?? (
@@ -357,7 +362,7 @@ export default function BuySmart({
                   aria-invalid={!!intentIssue}
                   placeholder="Tell us what you need, how you’ll use it, and what matters most…"
                   maxLength={500}
-                  disabled={loading}
+                  disabled={loading || !interactiveReady}
                 />
                 <div className="search-controls">
                   <label>
@@ -365,7 +370,7 @@ export default function BuySmart({
                     <div className="money-input">
                       <span>$</span>
                       <input
-                        disabled={loading}
+                        disabled={loading || !interactiveReady}
                         aria-label="Maximum budget"
                         type="number"
                         min="25"
@@ -384,7 +389,7 @@ export default function BuySmart({
                     Category
                     <select
                       aria-label="Category"
-                      disabled={loading}
+                      disabled={loading || !interactiveReady}
                       value={category}
                       onChange={(e) => {
                         const value = e.target.value as Comparison["category"];
@@ -402,7 +407,7 @@ export default function BuySmart({
                   <button
                     className="primary"
                     onClick={() => void search()}
-                    disabled={loading || !!intentIssue}
+                    disabled={loading || !interactiveReady || !!intentIssue}
                   >
                     {loading
                       ? "Researching…"
@@ -420,7 +425,7 @@ export default function BuySmart({
                   {examples.map((ex, i) => (
                     <button
                       key={ex}
-                      disabled={loading}
+                      disabled={loading || !interactiveReady}
                       onClick={() => {
                         setQuery(ex);
                         setCategory(
