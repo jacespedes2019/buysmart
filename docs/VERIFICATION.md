@@ -1,4 +1,4 @@
-# Verification — November 23, 2026
+# Verification — November 24, 2026
 
 ## Current automated checks
 
@@ -63,3 +63,11 @@ Added private target-price watches, own-record read/delete, server-validated con
 Validation: 58 unit tests / 9 files, 21 browser tests with zero skips, type checks, lint and build. New tests exercise same-ASIN concurrency, stale lease fencing, interrupted run reuse, budget exhaustion, seller changes, alert threshold/rearm semantics, shared cron updates, private watch CRUD/reload/targets/pause, non-owner activation refusal and foreign-ID/native-tool denials. The installed SDK unwrapped CronContext integration contract was inspected and tested. Mobile watch screenshot: docs/screenshots/mobile-price-watches.png.
 
 One authorized exact-ASIN paid probe returned B0DZ75TN5F at USD 379 with seller and variant metadata; one start plus three free polls cost USD 0.02 (2 credits), within USD 0.05. Evidence: docs/live-verification/exact-asin-1795570415140/. No scheduled paid monitoring was enabled, and no additional Exa/OpenAI calls were made.
+
+### Price-tracking release and hydration correction
+
+The initial price-tracking release was `rel_01M885K06RM06CA707XMQF9Q1W`. A production test then exposed a prerender/hydration race: text could be entered before React connected input handlers. The fix disables search and navigation controls until hydration; an explicit slow-JavaScript production regression checks the prerendered disabled textarea, releases the JS requests and verifies synchronized editing.
+
+The corrected release is `rel_01M8863AHAZMCAG70B9Z77Y2CG`, clean source commit `f1bddb8`. DeepSpace confirmed serving and data plane. Production private watch CRUD/isolation and the delayed-hydration regression both passed. Paid monitoring remains disabled; no scheduled paid check was activated. Production checks create/delete their own private test rows and use no paid integrations.
+
+After the corrected release, five additional production flows passed: private comparison save/reopen/isolation, desktop demo, mobile demo, text/filter synchronization, and the synthetic no-credit alert preview. Together with private watch CRUD/isolation and the explicit delayed-hydration check, seven production checks passed. No additional paid requests were made.

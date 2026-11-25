@@ -6,7 +6,7 @@
 
 Amazon discovery now uses **Apify through DeepSpace**. The original `amazon/search-products` route failed because its upstream SerpAPI account had exhausted searches; retrying that endpoint cannot fix the provider quota. A paid Apify probe successfully returned three iPad A16 128GB variants at USD 379 each, including ASIN, stock, seller, and variant metadata. Those are dated observations, not current checkout guarantees.
 
-The current provider chain was verified using that completed Amazon run plus one fresh Exa search and one fresh OpenAI completion. Both succeeded; JSON was complete. The final identity-normalization refinement was verified by replaying those actual responses without further spending. Native auth, private history, and adversarial two-account requests are tested locally. **The app has not been deployed.**
+The current provider chain was verified using that completed Amazon run plus one fresh Exa search and one fresh OpenAI completion. Both succeeded; JSON was complete. The final identity-normalization refinement was verified by replaying those actual responses without further spending. Native auth, private history, and adversarial two-account requests are tested locally. **Live at https://buysmart.app.space**, with production verification of private persistence and isolation. A subsequent twelve-candidate search and exact-ASIN price probe also succeeded; evidence and costs are in docs/VERIFICATION.md.
 
 ## Product flow
 
@@ -34,7 +34,7 @@ Reservations have unique lease tokens. Stale completion/failure cannot overwrite
 
 Per-integration request timeouts and a 120-second action deadline bound waiting; browser cancellation is forwarded. The pending lease is three minutes. Canceling an HTTP request cannot retroactively cancel or refund an already accepted upstream job; its actor timeout and spend cap still apply. Actual billing settlement may require a later status read if the request was interrupted.
 
-**The Apify cap applies to provider charges, not the final DeepSpace bill.** In the verified three-item example the provider reported USD 0.012 and DeepSpace charged USD 0.048 (4.8 credits) on the account's current tier. The runtime twelve-candidate cap is USD 0.075 upstream; this larger configuration has only been tested with saved/simulated responses, not a paid run. Exa/OpenAI are variable-cost; app limits bound calls, not an exact dollar ceiling.
+**The Apify cap applies to provider charges, not the final DeepSpace bill.** In the verified three-item example the provider reported USD 0.012 and DeepSpace charged USD 0.048 (4.8 credits) on the account's current tier. The runtime twelve-candidate cap is USD 0.075 upstream; its paid variety probe cost USD 0.176 after settlement. Exa/OpenAI are variable-cost; app limits bound calls, not an exact dollar ceiling.
 
 ## Scoring and evidence policy
 
@@ -96,7 +96,7 @@ See `docs/VERIFICATION.md` for evidence and costs, `AUDIT.md` for the historical
 
 ## Deployment and assessment
 
-Deployment is still pending authorization. No public URL is claimed as verified. After approval, capture a clean reviewed commit for native DeepSpace source, deploy with `npx deepspace deploy`, and verify the returned HTTPS URL, own sign-in, two-user isolation, private writes, headers and logs. Do not publish the entire local dist tree as static assets: Worker-side `.dev.vars` is a local ignored artifact.
+The app is deployed at https://buysmart.app.space with GitHub source (jacespedes2019/buysmart). Commit and push reviewed changes, then deploy with `npx deepspace deploy`; the release ships the local working tree. HTTPS serving, desktop/mobile demo journeys, private persistence and two-user isolation have been verified in production. Do not publish the entire local dist tree as static assets: Worker-side `.dev.vars` is a local ignored artifact.
 
 The assessment deadline supplied by the owner is November 25, 2026 at 11:59 PM Eastern (8:59 PM Pacific). The applicant must personally verify and explain the work, edit the submission note, and supply the live URL and repository. Agent testing is not personal candidate verification. See `ASSESSMENT.md`.
 
