@@ -61,7 +61,7 @@ export default function Home() {
         <button onClick={() => void signOut()}>Sign out</button>
       </> : <button data-testid="nav-sign-in-button" onClick={() => setAuth(true)}>Sign in to save privately ↗</button>}</>}
       accountStatus={isSignedIn ? <>
-        {researchStatus ? <p className="subtle">{researchStatus.enabled ? "Live access approved." : "Live access is disabled for this account."} No daily or app search cap. New research uses integration credits. Cached searches and saved comparisons use no new credits.</p> : <p className="subtle">Research status is unavailable; demo and private history remain available.</p>}
+        {researchStatus ? <p className="subtle">{researchStatus.enabled ? "Live research is available to all signed-in users." : "Live research is temporarily paused."} No daily or app search cap. New research uses integration credits. Cached searches and saved comparisons use no new credits.</p> : <p className="subtle">Research status is unavailable; demo and private history remain available.</p>}
         {!!invalid.length && <div role="alert">{invalid.length} saved comparison(s) could not be read. You can remove invalid snapshots:
           {invalid.map(r => <button key={r.recordId} disabled={!mutations.ready} onClick={() => void mutations.removeConfirmed(r.recordId).catch(() => setAccountError("Could not remove invalid snapshot."))}>Delete invalid snapshot {r.recordId}</button>)}
         </div>}

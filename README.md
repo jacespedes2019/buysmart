@@ -11,7 +11,7 @@ The current provider chain was verified using that completed Amazon run plus one
 ## Product flow
 
 - `/`: explicitly labeled illustrative demo; no auth/data connection or paid calls.
-- `/home`: native sign-in, private account history, demo by default, and an approved-account Live research toggle. Current server allowlist enables only the owner's account.
+- `/home`: native sign-in, private account history, demo by default, and a Live research toggle available to every authenticated user.
 - A deliberate live search starts one bounded Apify Amazon extraction, polls its free status endpoint, researches with Exa, then extracts cited specifications with OpenAI.
 - Up to four offers show USD price, exact ASIN/variant, stock, seller, observation time, shipping availability and tax exclusion. Price/stock may change; verify the original listing and checkout total.
 - Compare, reweight, save, reopen and delete. Reweight/reopen uses the stored snapshot and makes no provider calls.
@@ -26,9 +26,9 @@ The current provider chain was verified using that completed Amazon run plus one
 | `exa/search` | Manufacturer/review research including the original requirements | Four results, bounded excerpts, relevant domains |
 | `openai/chat-completion` | Compact specification extraction | `gpt-4.1-mini`, 2,000 output tokens, literal quote and model checks; no AI ranking values |
 
-All calls are developer-billed, server-side, and gated by verified JWT plus exact account allowlist. The generic browser integration proxy is blocked. No provider API keys are required in the browser.
+All calls are developer-billed, server-side, and gated by a verified JWT. The generic browser integration proxy is blocked. No provider API keys are required in the browser.
 
-ResearchGate, a native Durable Object, transactionally prevents duplicate concurrent searches and retains user-scoped cached responses for 24 hours; keys include a provider/policy version. There are no daily per-user or cumulative app search caps. New uncached research consumes integration credits; live access remains restricted to approved accounts.
+ResearchGate, a native Durable Object, transactionally prevents duplicate concurrent searches and retains user-scoped cached responses for 24 hours; keys include a provider/policy version. There are no daily per-user or cumulative app search caps. New uncached research consumes integration credits; live access is available to all authenticated accounts.
 
 Reservations have unique lease tokens. Stale completion/failure cannot overwrite a newer attempt. Once an upstream run ID is known it is persisted; a deliberate repeated search can resume that extraction after a disconnect/timeout instead of starting it again. Original observation timestamps survive resume. An ambiguous failure before receiving a run ID cannot be made exactly-once without upstream idempotency support; there is no automatic paid retry.
 

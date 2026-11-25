@@ -16,7 +16,7 @@ function setup(signedIn = true) {
   const values = new Map<string, unknown>();
   const tx = { get: async (k: string) => values.get(k), put: async (k: string, v: unknown) => { values.set(k,v); }, delete: async (k: string) => values.delete(k) };
   const gate = new ResearchGate({ storage: { ...tx, transaction: async (fn: (t: typeof tx) => Promise<unknown>) => fn(tx) } } as unknown as DurableObjectState);
-  const env = { OWNER_USER_ID: "owner", LIVE_ENABLED: "false", LIVE_USER_IDS: "", DEEPSPACE_APP_ID: "test",
+  const env = { OWNER_USER_ID: "owner", LIVE_ENABLED: "false", DEEPSPACE_APP_ID: "test",
     RECORD_ROOMS: { idFromName: (s: string) => s, get: () => ({ fetch: recordFetch }) },
     RESEARCH_GATE: { idFromName: (s: string) => s, get: () => ({ fetch: (r: Request) => gate.fetch(r) }) },
   } as unknown as Env;
@@ -61,9 +61,9 @@ it("blocks disabled live research and removes the obsolete quota reset endpoint"
   expect(await (await s.post("researchStatus", {})).json()).toMatchObject({ success: true, data: { enabled: false } });
 });
 
-it("runs the authorized discovery action through mocked external transport and caches without another paid start", async () => {
+it("allows an ordinary signed-in account to discover and cache through mocked external transport", async () => {
   const s = setup();
-  s.env.LIVE_ENABLED = "true"; s.env.LIVE_USER_IDS = "alice"; s.env.APP_OWNER_JWT = "owner-billing-test";
+  s.env.LIVE_ENABLED = "true"; s.env.APP_OWNER_JWT = "owner-billing-test";
   const apiFetch = vi.fn(async (target: RequestInfo | URL, init?: RequestInit) => {
     const url = typeof target === "string" ? target : target instanceof URL ? target.href : target.url;
     expect(new Headers(init?.headers).get("Authorization")).toBe("Bearer owner-billing-test");
@@ -84,7 +84,7 @@ it("runs the authorized discovery action through mocked external transport and c
 
 it("rejects contradictory search text and fields before starting paid research", async () => {
   const s = setup();
-  s.env.LIVE_ENABLED = "true"; s.env.LIVE_USER_IDS = "alice";
+  s.env.LIVE_ENABLED = "true";
   const apiFetch = vi.fn();
   s.env.API_WORKER = { fetch: apiFetch } as unknown as Fetcher;
   for (const input of [

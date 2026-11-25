@@ -4,8 +4,8 @@ import type { Env } from "../../worker";
 import { comparisonSchema, discoverySchema, searchSchema, type Discovery } from "../buysmart/model";
 import { searchIntentConflict } from "../buysmart/search-intent";
 import { LiveProvider } from "../buysmart/providers";
-export function liveAllowed(userId: string, env: Pick<Env, "LIVE_ENABLED" | "LIVE_USER_IDS">) {
-  return env.LIVE_ENABLED === "true" && (env.LIVE_USER_IDS ?? "").split(",").map(s => s.trim()).includes(userId);
+export function liveAllowed(userId: string, env: Pick<Env, "LIVE_ENABLED">) {
+  return !!userId && env.LIVE_ENABLED === "true";
 }
 const gateFor = (env: Env) => env.RESEARCH_GATE.get(env.RESEARCH_GATE.idFromName("research-budget-v1"));
 async function gateRequest(env: Env, body: Record<string, unknown>) {
@@ -14,7 +14,7 @@ async function gateRequest(env: Env, body: Record<string, unknown>) {
   return response.json() as Promise<{ state?: string; token?: string; runId?: string; observedAt?: string; result?: Discovery }>;
 }
 const discover: ActionHandler<Env> = async ({ userId, params, tools, env }) => {
-  if (!liveAllowed(userId, env)) return { success: false, error: "Live research is disabled for this account. The free demo is available at /." };
+  if (!liveAllowed(userId, env)) return { success: false, error: "Live research is temporarily disabled. The free demo is available at /." };
   const parsed = searchSchema.safeParse(params);
   if (!parsed.success) return { success: false, error: "Enter a valid query, category, and budget between $25 and $10,000." };
   const input = parsed.data;

@@ -331,14 +331,14 @@ export default function BuySmart({
                   {displayingLive
                     ? result
                       ? "Live research snapshot"
-                      : "Live research is access-controlled"
+                      : "Live product research"
                     : "Explore freely in demo mode"}
                 </strong>
                 <span>
                   {displayingLive
                     ? result
                       ? "External provider snapshot. Verify current prices and exact product variants."
-                      : "Approved accounts only. Requests consume owner credits."
+                      : "Available to all signed-in users. Requests consume app integration credits."
                     : "Illustrative product snapshots, prices and assessments. No live offers. No credits used."}
                 </span>
               </div>

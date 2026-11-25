@@ -88,7 +88,6 @@ export class AppJobRoom extends JobRoom<Env> {
 
 export interface Env extends DOBindings<typeof __DO_MANIFEST__> {
   LIVE_ENABLED?: string
-  LIVE_USER_IDS?: string
   ASSETS: Fetcher
   /**
    * Platform service binding in production; deepspace dev supplies the URL

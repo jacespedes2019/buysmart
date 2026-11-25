@@ -32,4 +32,4 @@ An explicitly approved direct-ASIN invocation succeeded on November 24: B0DZ75TN
 
 ## Personal opt-in migration
 
-The old global `enabled` storage flag is intentionally ignored. Existing accounts start with their own setting off and choose explicitly; the change never enrolls existing watches automatically. Pausing or resuming an account cannot affect another account or replenish the shared budget. Users do not gain access to anyone else’s targets, observations or notifications. Live-research search permissions remain unchanged.
+The old global `enabled` storage flag is intentionally ignored. Existing accounts start with their own setting off and choose explicitly; the change never enrolls existing watches automatically. Pausing or resuming an account cannot affect another account or replenish the shared budget. Users do not gain access to anyone else’s targets, observations or notifications. Live product discovery is also available to all signed-in accounts; automatic price checks still require separate personal opt-in.

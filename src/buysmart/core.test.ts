@@ -144,16 +144,11 @@ describe("saved comparisons and access policy", () => {
       }).success,
     ).toBe(false);
   });
-  it("requires explicit server enablement AND allowlist", () => {
-    expect(
-      liveAllowed("a", { LIVE_ENABLED: "false", LIVE_USER_IDS: "a" }),
-    ).toBe(false);
-    expect(liveAllowed("b", { LIVE_ENABLED: "true", LIVE_USER_IDS: "a" })).toBe(
-      false,
-    );
-    expect(liveAllowed("a", { LIVE_ENABLED: "true", LIVE_USER_IDS: "a" })).toBe(
-      true,
-    );
+  it("allows every authenticated account when live research is enabled", () => {
+    expect(liveAllowed("a", { LIVE_ENABLED: "false" })).toBe(false);
+    expect(liveAllowed("a", { LIVE_ENABLED: "true" })).toBe(true);
+    expect(liveAllowed("b", { LIVE_ENABLED: "true" })).toBe(true);
+    expect(liveAllowed("", { LIVE_ENABLED: "true" })).toBe(false);
   });
   it("enforces isolation using the installed SDK permission engine", () => {
     expect(canUpdate(comparisonsSchema, "member", { createdBy: "alice", data: {} }, "alice")).toBe(false);

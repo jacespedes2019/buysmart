@@ -222,6 +222,8 @@ test("native tool requests cannot read, update, delete, or overwrite another use
 test("private price watches survive reload, support targets and pause, and reject foreign edits", async ({ users }) => {
   const [a,b] = await users(2);
   await Promise.all([a.page.goto("/home"), b.page.goto("/home")]);
+  await expect(a.page.getByRole("checkbox", { name: "Live research", exact: true })).toBeEnabled();
+  await expect(b.page.getByRole("checkbox", { name: "Live research", exact: true })).toBeEnabled();
   await a.page.getByRole("button", { name: "Price alerts", exact: true }).click();
   await b.page.getByRole("button", { name: "Price alerts", exact: true }).click();
   const checksA = a.page.getByRole("checkbox", { name: "Automatically check my followed products" });

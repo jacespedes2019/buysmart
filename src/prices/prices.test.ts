@@ -13,7 +13,7 @@ function harness() {
   let tail: Promise<unknown> = Promise.resolve();
   const storage = { ...tx, transaction: <T>(fn: (t: typeof tx) => Promise<T>) => { const task = tail.then(() => fn(tx)); tail = task.catch(() => {}); return task; } };
   const service = new PriceMonitor({ storage } as unknown as DurableObjectState);
-  const env = { OWNER_USER_ID: "owner", LIVE_ENABLED: "true", LIVE_USER_IDS: "alice,bob", PRICE_MONITOR: { idFromName: () => "global", get: () => ({ fetch: (r: Request) => service.fetch(r) }) } } as unknown as Env;
+  const env = { OWNER_USER_ID: "owner", LIVE_ENABLED: "true", PRICE_MONITOR: { idFromName: () => "global", get: () => ({ fetch: (r: Request) => service.fetch(r) }) } } as unknown as Env;
   const call = async (op: string, params: Record<string, unknown> = {}) => {
     const response = await service.fetch(new Request("https://internal", { method: "POST", body: JSON.stringify({ op, userId: "alice", ...params }) }));
     return { status: response.status, ...await response.json() as { state?: string; enabled?: boolean; remaining?: number; token?: string; runId?: string; history?: Observation[]; error?: string } };
@@ -77,7 +77,7 @@ it("pins direct ASIN extraction to one item and a small provider budget", () => 
 });
 it("cron shares one unwrapped integration job across two owners and repeats without paid starts", async () => {
   const { env, call } = harness(); await call("enable", { enabled: true }); await call("enable", { enabled: true, userId: "bob" });
-  env.LIVE_ENABLED = "false"; env.LIVE_USER_IDS = "";
+  env.LIVE_ENABLED = "false";
   const rows = ["alice", "bob"].map((user, i) => ({ recordId: `watch${i}`, createdBy: user, data: { config: { ...config, target: 400 }, report: undefined as unknown } }));
   const query = vi.fn(async (_collection: string, options?: { where?: { recordId: string } }) => options?.where ? rows.filter(r => r.recordId === options.where?.recordId) : rows);
   const update = vi.fn(async (_collection, id, patch) => { Object.assign(rows.find(r => r.recordId === id)!.data, patch); });

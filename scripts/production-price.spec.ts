@@ -4,6 +4,13 @@ import { test, expect } from "deepspace/testing";
 test("production price watch CRUD and private isolation", async ({ users }) => {
   const [a,b] = await users(2);
   await Promise.all([a.page.goto("/home"), b.page.goto("/home")]);
+  const live = a.page.getByRole("checkbox", { name: "Live research", exact: true });
+  await expect(live).toBeEnabled();
+  await live.check();
+  await expect(a.page.getByRole("button", { name: "Research products", exact: true })).toBeVisible();
+  await live.uncheck();
+  await expect(a.page.getByRole("button", { name: "Discover demo products", exact: true })).toBeVisible();
+  await expect(b.page.getByRole("checkbox", { name: "Live research", exact: true })).toBeEnabled();
   await a.page.getByRole("button", { name: "Price alerts", exact: true }).click();
   await b.page.getByRole("button", { name: "Price alerts", exact: true }).click();
   const checksA = a.page.getByRole("checkbox", { name: "Automatically check my followed products" });
